@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CellulozStatic</class>
+ <widget class="QMainWindow" name="CellulozStatic">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1039</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Celluloz Static</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="frame_top">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
+        <number>15</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>1735</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="frame_main">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>5</number>
+       </property>
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
+       <property name="topMargin">
+        <number>5</number>
+       </property>
+       <property name="rightMargin">
+        <number>5</number>
+       </property>
+       <property name="bottomMargin">
+        <number>5</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frame_model_properties">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>700</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QFrame" name="frame_strut_lister">
+            <property name="maximumSize">
+             <size>
+              <width>700</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <property name="leftMargin">
+              <number>5</number>
+             </property>
+             <property name="topMargin">
+              <number>5</number>
+             </property>
+             <property name="rightMargin">
+              <number>5</number>
+             </property>
+             <property name="bottomMargin">
+              <number>5</number>
+             </property>
+             <item>
+              <widget class="QTableWidget" name="tableWidget_node">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>350</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>350</height>
+                </size>
+               </property>
+               <attribute name="horizontalHeaderDefaultSectionSize">
+                <number>50</number>
+               </attribute>
+               <column>
+                <property name="text">
+                 <string>Name</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>X</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Y</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Z</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Force X</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Force Y</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Force Z</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Rest X</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Rest Y</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Rest Z</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Displacement X</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Displacement Y</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Displacement Z</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTableWidget" name="tableWidget_strut">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>350</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>350</height>
+                </size>
+               </property>
+               <attribute name="horizontalHeaderDefaultSectionSize">
+                <number>70</number>
+               </attribute>
+               <column>
+                <property name="text">
+                 <string>Name</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Nodes</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Material</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Section</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Boundary Force X</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Boundary Force Y</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Boundary Force Z</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Volume Force</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Tempreture Change</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <widget class="QTableWidget" name="tableWidget_material">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <attribute name="horizontalHeaderDefaultSectionSize">
+                <number>70</number>
+               </attribute>
+               <column>
+                <property name="text">
+                 <string>ID</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Name</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Modulus of Elasticity</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Poisson's Ratio</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Yield Stress</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ultimate Stress</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Yield Strain</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Ultimate Strain</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Thermal Conductivity</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Spesific Weight</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_25">
+               <property name="text">
+                <string>Resolution</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinBox_model_resolution">
+               <property name="minimum">
+                <number>10</number>
+               </property>
+               <property name="maximum">
+                <number>200</number>
+               </property>
+               <property name="value">
+                <number>50</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_regenerate_model">
+               <property name="text">
+                <string>ReGenerate</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_save_model">
+               <property name="text">
+                <string>Save</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_fem_preprocessor">
+         <property name="maximumSize">
+          <size>
+           <width>0</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_vista">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_graph">
+         <property name="maximumSize">
+          <size>
+           <width>0</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1920</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuSave">
+     <property name="title">
+      <string>Save</string>
+     </property>
+     <widget class="QMenu" name="menuLattice_Model">
+      <property name="title">
+       <string>Static Model</string>
+      </property>
+      <addaction name="actionGeometry"/>
+      <addaction name="actionHomogenization_Results"/>
+     </widget>
+     <addaction name="actionProject"/>
+     <addaction name="menuLattice_Model"/>
+    </widget>
+    <widget class="QMenu" name="menuImport">
+     <property name="title">
+      <string>Import</string>
+     </property>
+     <addaction name="actionImportProject"/>
+     <addaction name="actionImportStaticModel"/>
+    </widget>
+    <addaction name="menuSave"/>
+    <addaction name="menuImport"/>
+    <addaction name="actionPicture"/>
+   </widget>
+   <widget class="QMenu" name="menuModules">
+    <property name="title">
+     <string>Modules</string>
+    </property>
+    <widget class="QMenu" name="menuAdd_Structure">
+     <property name="title">
+      <string>Add Structure</string>
+     </property>
+     <addaction name="actionAdd_Body"/>
+     <addaction name="actionAdd_Strut"/>
+     <addaction name="actionAdd_Brick"/>
+    </widget>
+    <addaction name="menuAdd_Structure"/>
+    <addaction name="actionAdd_Boundary_Conditions"/>
+    <addaction name="actionSolver"/>
+    <addaction name="actionResults"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <widget class="QMenu" name="menuView_Angle">
+     <property name="title">
+      <string>View Angle</string>
+     </property>
+     <addaction name="actionIsometric"/>
+     <addaction name="actionFront"/>
+     <addaction name="actionRight"/>
+     <addaction name="actionTop"/>
+     <addaction name="actionBack"/>
+     <addaction name="actionLeft"/>
+     <addaction name="actionBottom"/>
+    </widget>
+    <addaction name="menuView_Angle"/>
+    <addaction name="actionProperties"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuModules"/>
+   <addaction name="menuView"/>
+  </widget>
+  <action name="actionIsometric">
+   <property name="text">
+    <string>Isometric</string>
+   </property>
+  </action>
+  <action name="actionFront">
+   <property name="text">
+    <string>Front</string>
+   </property>
+  </action>
+  <action name="actionRight">
+   <property name="text">
+    <string>Right</string>
+   </property>
+  </action>
+  <action name="actionTop">
+   <property name="text">
+    <string>Top</string>
+   </property>
+  </action>
+  <action name="actionBack">
+   <property name="text">
+    <string>Back</string>
+   </property>
+  </action>
+  <action name="actionLeft">
+   <property name="text">
+    <string>Left</string>
+   </property>
+  </action>
+  <action name="actionBottom">
+   <property name="text">
+    <string>Bottom</string>
+   </property>
+  </action>
+  <action name="actionProject">
+   <property name="text">
+    <string>Project</string>
+   </property>
+  </action>
+  <action name="actionGeometry">
+   <property name="text">
+    <string>Geometry</string>
+   </property>
+  </action>
+  <action name="actionHomogenization_Results">
+   <property name="text">
+    <string>Properties</string>
+   </property>
+  </action>
+  <action name="actionPicture">
+   <property name="text">
+    <string>Picture</string>
+   </property>
+  </action>
+  <action name="actionImportProject">
+   <property name="text">
+    <string>Project</string>
+   </property>
+  </action>
+  <action name="actionImportStaticModel">
+   <property name="text">
+    <string>Static Model</string>
+   </property>
+  </action>
+  <action name="actionHomogenizer_Data">
+   <property name="text">
+    <string>Homogenizer Data</string>
+   </property>
+  </action>
+  <action name="actionHomogenizer_Menu">
+   <property name="text">
+    <string>Homogenizer Menu</string>
+   </property>
+  </action>
+  <action name="actionAdd_Body">
+   <property name="text">
+    <string>Add Body</string>
+   </property>
+  </action>
+  <action name="actionAdd_Strut">
+   <property name="text">
+    <string>Add Strut</string>
+   </property>
+  </action>
+  <action name="actionAdd_Brick">
+   <property name="text">
+    <string>Add Brick</string>
+   </property>
+  </action>
+  <action name="actionAdd_Boundary_Conditions">
+   <property name="text">
+    <string>Add Boundary Conditions</string>
+   </property>
+  </action>
+  <action name="actionSolver">
+   <property name="text">
+    <string>Solver</string>
+   </property>
+  </action>
+  <action name="actionResults">
+   <property name="text">
+    <string>Results</string>
+   </property>
+  </action>
+  <action name="actionProperties">
+   <property name="text">
+    <string>Properties</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
