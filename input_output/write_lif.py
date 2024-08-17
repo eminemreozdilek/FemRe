@@ -5,7 +5,8 @@ from preprocessor.models import elements as el
 
 def write_input_lif(file_name: str, nodes: dict, struts: dict, materials: dict):
     file = open(file_name, "w")
-
+    file.write(
+        "// NODE ID X Y Z\n")
     for node in nodes:
         node: nd.Node = nodes[node]
         file.write("Node ")
@@ -18,6 +19,8 @@ def write_input_lif(file_name: str, nodes: dict, struts: dict, materials: dict):
         file.write(str(node.z))
         file.write("\n")
 
+    file.write(
+        "\n// STRUT ID START_NODE END_NODE MATERIAL RADIUS\n")
     for strut in struts:
         strut: el.Strut = struts[strut]
         file.write("STRUT ")
@@ -32,6 +35,8 @@ def write_input_lif(file_name: str, nodes: dict, struts: dict, materials: dict):
         file.write(str(strut.radius))
         file.write("\n")
 
+    file.write(
+        "\n// MATERIAL ID ELASTICITY_MODULUS POISSONS_RATIO YIELD_STRENGTH TENSILE_STRENGTH YIELD_STRAIN TENSILE STRAIN THERMAL_CONDUCTIVITY\n")
     for material in materials:
         material: mtrl.NonLinearMaterial = materials[material]
         file.write("MAT ")

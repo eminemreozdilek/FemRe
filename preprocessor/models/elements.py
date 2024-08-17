@@ -79,7 +79,6 @@ class ElementBrickEight:
     def __calculate_determinant_of_jacobian_matrix(self, r, s, t):
         return np.abs(np.linalg.det(self.__calculate_jacobian_matrix(r, s, t)))
 
-    # Genleme-yer değiştirme matrisi (6x24)
     def __calculate_beta_matrix(self, r, s, t):
         df_dx = self.__calculate_df_dr(r, s, t) @ np.linalg.inv(self.__calculate_jacobian_matrix(r, s, t))
         beta_matrix = np.zeros((6, 24))
@@ -211,29 +210,6 @@ class ElementBrickEight:
 
     def set_solution(self, u_system):
         self.__u = u_system[self.code]
-
-    # # Gerilme vektörü
-    # def SigmaVec(self, r, s, t):
-    #     U = self.__u
-    #     C = self.__material.constitutive_matrix
-    #     BM = self.__calculate_beta_matrix(r, s, t)
-    #     alpha = self.__material.alpha
-    #     deltaT = self.__temperature_change
-    #     ALPHA = np.asarray([alpha, alpha, alpha, 0, 0, 0])
-    #     return C @ (BM @ U - ALPHA * deltaT)
-    #
-    # # verilen nodal değerleri nodlara paslar
-    # def appendNodeValues(self, nodal_values):
-    #     for i, node in enumerate(self.__connected_nodes):
-    #         node.values.append(nodal_values[i])
-    #
-    # def SigmaX(self):
-    #     return [self.SigmaVec(ri, si, ti)[0]
-    #             for ri, si, ti in self.__master_points]
-    #
-    # def SigmaXAverage(self):
-    #     return [node.mean_value()
-    #             for node in self.__connected_nodes]
 
     def __calculate_shape_functions(self, r, s, t):
         return 0.125 * np.asarray([(1 + ri * r) * (1 + si * s) * (1 + ti * t)
