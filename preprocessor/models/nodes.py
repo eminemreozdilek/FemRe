@@ -1,31 +1,149 @@
 import numpy as np
+import pandas as pd
 
 
-class Node(object):
-    def __init__(self, node_id, x, y, z):
-        self.__node_id = node_id
-        self.__x = x
-        self.__y = y
-        self.__z = z
-
-    def get_coordinate_array(self):
-        return np.array([self.__x, self.__y, self.__z])
+class Nodes(object):
+    def __init__(self):
+        self.__data = pd.DataFrame({'NodeID': [],
+                                    'X': [],
+                                    'Y': [],
+                                    'Z': [],
+                                    "RestX": [],
+                                    "RestY": [],
+                                    "RestZ": [],
+                                    "ForceX": [],
+                                    "ForceY": [],
+                                    "ForceZ": [],
+                                    "DisplacementX": [],
+                                    "DisplacementY": [],
+                                    "DisplacementZ": [],
+                                    "CodeX": [],
+                                    "CodeY": [],
+                                    "CodeZ": [],
+                                    "ResultDisplacementX": [],
+                                    "ResultDisplacementY": [],
+                                    "ResultDisplacementZ": [],
+                                    "ResultForceX": [],
+                                    "ResultForceY": [],
+                                    "ResultForceZ": [],
+                                    })
 
     @property
-    def node_id(self):
-        return self.__node_id
+    def data(self):
+        return self.__data
 
-    @property
-    def x(self):
-        return self.__x
+    def set_data(self, node_dataframe: pd.DataFrame):
+        self.__data = node_dataframe
 
-    @property
-    def y(self):
-        return self.__y
+    def add_rest_x(self, node_id: np.array, clean_rests: bool = False):
+        mask = self.__data['NodeID'].isin(node_id)
+        if clean_rests:
+            self.__data.loc[mask, 'RestX'] = 0
+        else:
+            self.__data.loc[mask, 'RestX'] = 1
 
-    @property
-    def z(self):
-        return self.__z
+    def add_rest_y(self, node_id: np.array, clean_rests: bool = False):
+        mask = self.__data['NodeID'].isin(node_id)
+        if clean_rests:
+            self.__data.loc[mask, 'RestY'] = 0
+        else:
+            self.__data.loc[mask, 'RestY'] = 1
+
+    def add_rest_z(self, node_id: np.array, clean_rests: bool = False):
+        mask = self.__data['NodeID'].isin(node_id)
+        if clean_rests:
+            self.__data.loc[mask, 'RestZ'] = 0
+        else:
+            self.__data.loc[mask, 'RestZ'] = 1
+
+    def add_displacement_x(self, node_id: np.array, displacement: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'DisplacementX'] = displacement
+
+    def remove_displacement_x(self, node_id: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'DisplacementX'] = 0
+
+    def add_displacement_y(self, node_id: np.array, displacement: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'DisplacementY'] = displacement
+
+    def remove_displacement_y(self, node_id: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'DisplacementY'] = 0
+
+    def add_displacement_z(self, node_id: np.array, displacement: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'DisplacementZ'] = displacement
+
+    def remove_displacement_z(self, node_id: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'DisplacementZ'] = 0
+
+    def add_force_x(self, node_id: np.array, force: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'ForceX'] = force
+
+    def remove_force_x(self, node_id: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'ForceX'] = 0
+
+    def add_force_y(self, node_id: np.array, force: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'ForceY'] = force
+
+    def remove_force_y(self, node_id: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'ForceY'] = 0
+
+    def add_force_z(self, node_id: np.array, force: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'ForceZ'] = force
+
+    def remove_force_z(self, node_id: np.array):
+        mask = self.__data['NodeID'].isin(node_id)
+        self.__data.loc[mask, 'ForceZ'] = 0
+
+    def get_node_id_by_coordinates_x_as_plane(self, coordinate: float, tolerance: float = 1.0e-5):
+        mask = self.__data["X"].between(coordinate - tolerance, coordinate + tolerance)
+        return self.__data.loc[mask, 'NodeID'].values
+
+    def get_node_id_by_coordinates_y_as_plane(self, coordinate: float, tolerance: float = 1.0e-5):
+        mask = self.__data["Y"].between(coordinate - tolerance, coordinate + tolerance)
+        return self.__data.loc[mask, 'NodeID'].values
+
+    def get_node_id_by_coordinates_z_as_plane(self, coordinate: float, tolerance: float = 1.0e-5):
+        mask = self.__data["Z"].between(coordinate - tolerance, coordinate + tolerance)
+        return self.__data.loc[mask, 'NodeID'].values
+
+    def get_node_id_by_coordinates_x_as_line(self, coordinate_y: float, coordinate_z: float,
+                                             tolerance: float = 1.0e-5):
+        mask1 = self.__data["Y"].between(coordinate_y - tolerance, coordinate_y + tolerance)
+        mask2 = self.__data["Z"].between(coordinate_z - tolerance, coordinate_z + tolerance)
+        mask = mask1 & mask2
+        return self.__data.loc[mask, 'NodeID'].values
+
+    def get_node_id_by_coordinates_y_as_line(self, coordinate_x: float, coordinate_z: float,
+                                             tolerance: float = 1.0e-5):
+        mask1 = self.__data["X"].between(coordinate_x - tolerance, coordinate_x + tolerance)
+        mask2 = self.__data["Z"].between(coordinate_z - tolerance, coordinate_z + tolerance)
+        mask = mask1 & mask2
+        return self.__data.loc[mask, 'NodeID'].values
+
+    def get_node_id_by_coordinates_z_as_line(self, coordinate_x: float, coordinate_y: float,
+                                             tolerance: float = 1.0e-5):
+        mask1 = self.__data["X"].between(coordinate_x - tolerance, coordinate_x + tolerance)
+        mask2 = self.__data["Y"].between(coordinate_y - tolerance, coordinate_y + tolerance)
+        mask = mask1 & mask2
+        return self.__data.loc[mask, 'NodeID'].values
+
+    def get_node_id_from_volume(self, min_coordinates: tuple, max_coordinates: tuple):
+        mask1 = self.__data["X"].between(min_coordinates[0], max_coordinates[0])
+        mask2 = self.__data["Y"].between(min_coordinates[1], max_coordinates[1])
+        mask3 = self.__data["Z"].between(min_coordinates[2], max_coordinates[2])
+        mask = mask1 & mask2
+        mask = mask & mask3
+        return self.__data.loc[mask, "NodeID"].values
 
 
 class NodeSolid:
@@ -51,11 +169,7 @@ class NodeSolid:
 
     def save_node_to_dataframe(self, node_storage):
         node_storage.loc[self.__node_id] = {"NodeID": self.__node_id,
-                                            "NodeType": str(self),
-                                            "Node": self,
-                                            "X": self.__coordinates[0],
-                                            "Y": self.__coordinates[1],
-                                            "Z": self.__coordinates[2]}
+                                            "Node": self, }
         return node_storage
 
     @property
@@ -120,118 +234,5 @@ class NodeSolid:
     def set_displacement(self, vector: tuple):
         self.__displacements = np.array(vector)
 
-
-class NodeStrut:
-    def __init__(self, node_id: int, coordinates: tuple):
-        self.__node_id = node_id
-        self.__coordinates = np.array(coordinates)
-        self.__rest = np.zeros(6, )
-        self.__displacements = np.zeros((6,))
-        self.__code = [-1] * 6  # Serbestlikler (Kod) [dx, dy, dz, tx, ty, tz]
-        self.__euler_angles = np.zeros((3,))  # Lokal eksen Euler açıları [betaZ, beyaY, betaX]
-        self.__moments = np.zeros((3,))
-        self.__forces = np.zeros((3,))
-        self.__result_displacements = None
-        self.__result_forces = None
-
-    def __str__(self):
-        return "Node Strut - " + str(self.__node_id) + " at " + str(self.__coordinates)
-
-    def __repr__(self):
-        return "Node Solid - " + str(self.__node_id) + " at " + str(self.__coordinates)
-
-    def __int__(self):
-        return self.__node_id
-
-    def save_node_to_dataframe(self, node_storage):
-        node_storage.loc[self.__node_id] = {"NodeID": self.__node_id,
-                                            "NodeType": str(self),
-                                            "Node": self,
-                                            "X": self.__coordinates[0],
-                                            "Y": self.__coordinates[1],
-                                            "Z": self.__coordinates[2]}
-        return node_storage
-
-    def calculate_transformation_matrix(self):  # ZYX Euler dönüşüm matrisi
-        euler_angles = np.pi / 180 * np.array(self.__euler_angles)
-        cx, cy, cz = np.cos(euler_angles)
-        sx, sy, sz = np.sin(euler_angles)
-        return np.asarray([[cy * cz, cz * sx * sy - cx * sz, sx * sz + cx * cz * sy],
-                           [cy * sz, cx * cz + sx * sy * sz, cx * sy * sz - cz * sx],
-                           [-sy, cy * sx, cx * cy]])
-
-    @property
-    def export_name(self):
-        return "nodestrtut"
-
-    @property
-    def force(self):  # Sistem denklemine katkı yapacak .force vektörü hesaplanıyor.
-        transformation_matrix = np.linalg.inv(self.calculate_transformation_matrix())
-        p = transformation_matrix @ self.__forces
-        m = transformation_matrix @ self.__moments
-        return np.array([*p, *m])
-
-    @property
-    def displacement(self):
-        return np.array(self.__displacements)
-
-    @property
-    def euler_angles(self):
-        return self.__euler_angles
-
-    @property
-    def rest(self):
-        return self.__rest
-
-    @property
-    def node_id(self):
-        return self.__node_id
-
-    @property
-    def coordinates(self):
-        return self.__coordinates
-
-    @property
-    def code(self):
-        return self.__code
-
-    @property
-    def result_displacements(self):
-        return self.__result_displacements
-
-    @property
-    def result_forces(self):
-        return self.__result_forces
-
-    @property
-    def x(self):
-        return self.__coordinates[0]
-
-    @property
-    def y(self):
-        return self.__coordinates[1]
-
-    @property
-    def z(self):
-        return self.__coordinates[2]
-
-    def set_result_displacements(self, vector: tuple):
-        self.__result_displacements = np.array(vector)
-
-    def set_result_forces(self, vector: tuple):
-        self.__result_forces = np.array(vector)
-
-    def set_displacement(self, vector: tuple):
-        self.__displacements = np.array(vector)
-
-    def set_rest(self, vector: tuple):
-        self.__rest = np.array(vector)
-
-    def set_euler_angles(self, vector: tuple):
-        self.__euler_angles = np.array(vector)
-
-    def set_force(self, vector: tuple):
-        self.__forces = np.array(vector)
-
-    def set_moment(self, vector: tuple):
-        self.__moments = np.array(vector)
+    def ExternalForceVectorToContribute(self):
+        return self.force

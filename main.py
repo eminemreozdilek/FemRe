@@ -5,6 +5,7 @@ import logging
 import time
 
 os.environ["QT_API"] = "pyside6"
+os.environ["FEMRE_LOCATION"] = os.getcwd()
 
 from PySide6.QtWidgets import QApplication
 from ui import OpenWindow

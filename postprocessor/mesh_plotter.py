@@ -1,5 +1,47 @@
 import numpy as np
 import pyvista as pv
+import pandas as pd
+
+import applications.application_static.model_storage as asms
+
+
+def plot_mesh_static_case_mesh(data: asms.Storage, scale: float = 1.0):
+    nodes = data.node_storage.data
+    hexahedrons = data.element_brick_eight_storage.data
+    tetrahedrons = data.element_tetra_four_storage.data
+
+    node_coordinates = nodes[["X", "Y", "Z"]].values
+    node_displacements = nodes[["DisplacementX", "DisplacementY", "DisplacementZ"]].values
+    node_forces = nodes[["ForceX", "ForceY", "ForceZ"]].values
+    node_ids = nodes["NodeID"].values
+
+    result_displacements = nodes[["ResultDisplacementX", "ResultDisplacementY", "ResultDisplacementZ"]].values
+    result_forces = nodes[["ResultForceX", "ResultForceY", "ResultForceZ"]].values
+    node_restrictions = nodes[["RestX", "RestY", "RestZ"]].values
+
+    new_coordinates = result_displacements * scale + node_coordinates
+
+    tetrahedron_cells = tetrahedrons[["Node1", "Node2", "Node3", "Node4"]].values - 1
+    tetrahedron_cells = np.hstack((np.full((tetrahedron_cells.shape[0], 1), 4), tetrahedron_cells)).astype(int)
+    hexahedron_cells = hexahedrons[["Node1", "Node2", "Node3", "Node4", "Node5", "Node6", "Node7", "Node8"]].values - 1
+    hexahedron_cells = np.hstack((np.full((hexahedron_cells.shape[0], 1), 8), hexahedron_cells)).astype(int)
+
+    tetrahedron_cell_type = np.full(tetrahedron_cells.shape[0], pv.CellType.TETRA, dtype=np.uint8)
+    hexahedron_cell_type = np.full(hexahedron_cells.shape[0], pv.CellType.HEXAHEDRON, dtype=np.uint8)
+    tetrahedron_mesh = pv.UnstructuredGrid(tetrahedron_cells, tetrahedron_cell_type, new_coordinates)
+    hexahedron_mesh = pv.UnstructuredGrid(hexahedron_cells, hexahedron_cell_type, new_coordinates)
+
+    return ([tetrahedron_mesh, hexahedron_mesh],
+            [tetrahedron_mesh.extract_all_edges(), hexahedron_mesh.extract_all_edges()])
+
+
+def plot_points(data: asms.Storage, point_ids, scale: float = 1.0):
+    mask = data.node_storage.data["NodeID"].isin(point_ids)
+    coordinates = data.node_storage.data.loc[mask, ["X", "Y", "Z"]].values
+    result_displacements = data.node_storage.data.loc[
+        mask, ["ResultDisplacementX", "ResultDisplacementY", "ResultDisplacementX"]].values
+
+    return pv.PolyData(result_displacements * scale + coordinates)
 
 
 def plot_voxel_with_pyvista(voxel: np.ndarray, model_size: tuple = (1.0, 1.0, 1.0)):

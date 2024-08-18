@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Celluloz Static</string>
+   <string>FemRe Static</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -116,7 +116,7 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>700</width>
+           <width>0</width>
            <height>16777215</height>
           </size>
          </property>
@@ -143,7 +143,7 @@
            <number>5</number>
           </property>
           <item>
-           <widget class="QFrame" name="frame_strut_lister">
+           <widget class="QFrame" name="frame_material">
             <property name="maximumSize">
              <size>
               <width>700</width>
@@ -173,165 +173,17 @@
               <number>5</number>
              </property>
              <item>
-              <widget class="QTableWidget" name="tableWidget_node">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>350</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>350</height>
-                </size>
-               </property>
-               <attribute name="horizontalHeaderDefaultSectionSize">
-                <number>50</number>
-               </attribute>
-               <column>
-                <property name="text">
-                 <string>Name</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>X</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Y</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Z</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Force X</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Force Y</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Force Z</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Rest X</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Rest Y</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Rest Z</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Displacement X</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Displacement Y</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Displacement Z</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item>
-              <widget class="QTableWidget" name="tableWidget_strut">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>350</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>350</height>
-                </size>
-               </property>
-               <attribute name="horizontalHeaderDefaultSectionSize">
-                <number>70</number>
-               </attribute>
-               <column>
-                <property name="text">
-                 <string>Name</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Nodes</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Material</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Section</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Boundary Force X</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Boundary Force Y</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Boundary Force Z</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Volume Force</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Tempreture Change</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item>
               <widget class="QTableWidget" name="tableWidget_material">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>100</height>
+                 <height>300</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>100</height>
+                 <height>16777215</height>
                 </size>
                </property>
                <attribute name="horizontalHeaderDefaultSectionSize">
@@ -389,40 +241,6 @@
                </column>
               </widget>
              </item>
-             <item>
-              <widget class="QLabel" name="label_25">
-               <property name="text">
-                <string>Resolution</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinBox_model_resolution">
-               <property name="minimum">
-                <number>10</number>
-               </property>
-               <property name="maximum">
-                <number>200</number>
-               </property>
-               <property name="value">
-                <number>50</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_regenerate_model">
-               <property name="text">
-                <string>ReGenerate</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_save_model">
-               <property name="text">
-                <string>Save</string>
-               </property>
-              </widget>
-             </item>
             </layout>
            </widget>
           </item>
@@ -433,7 +251,7 @@
         <widget class="QFrame" name="frame_fem_preprocessor">
          <property name="maximumSize">
           <size>
-           <width>0</width>
+           <width>250</width>
            <height>16777215</height>
           </size>
          </property>
@@ -443,6 +261,411 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QCheckBox" name="checkBox_adaptive_shine_selection_nodes">
+            <property name="text">
+             <string>Adaptive Shine Selection Nodes</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_bc_center">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Center Coordinate</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_x">
+               <property name="text">
+                <string>X</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_x_coordinate">
+               <property name="decimals">
+                <number>6</number>
+               </property>
+               <property name="minimum">
+                <double>-1000000.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>1000000.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Y</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_y_coordinate">
+               <property name="decimals">
+                <number>6</number>
+               </property>
+               <property name="minimum">
+                <double>-1000000.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>1000000.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>Z</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_z_coordinate">
+               <property name="decimals">
+                <number>6</number>
+               </property>
+               <property name="minimum">
+                <double>-1000000.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>1000000.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame_volumetric_choosing">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>Volumetric Choosing</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>X</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_x_coordinate_volume">
+               <property name="decimals">
+                <number>6</number>
+               </property>
+               <property name="minimum">
+                <double>-1000000.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>1000000.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>Y</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_y_coordinate_volume">
+               <property name="decimals">
+                <number>6</number>
+               </property>
+               <property name="minimum">
+                <double>-1000000.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>1000000.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>Z</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="doubleSpinBox_z_coordinate_volume">
+               <property name="decimals">
+                <number>6</number>
+               </property>
+               <property name="minimum">
+                <double>-1000000.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>1000000.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QFrame" name="frame">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QComboBox" name="comboBox_bc_type">
+               <item>
+                <property name="text">
+                 <string>Rest</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Displacement</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Force</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_2">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QFrame" name="frame_3">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>10</height>
+                   </size>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_7">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="checkBox_bc_add_x">
+                     <property name="text">
+                      <string>X</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="checkBox_bc_add_y">
+                     <property name="text">
+                      <string>Y</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QCheckBox" name="checkBox_bc_add_z">
+                     <property name="text">
+                      <string>Z</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_4">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_8">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLineEdit" name="lineEdit_value_x">
+                     <property name="text">
+                      <string>0</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="lineEdit_value_y">
+                     <property name="text">
+                      <string>0</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="lineEdit_value_z">
+                     <property name="text">
+                      <string>0</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_5">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                 <widget class="QPushButton" name="pushButton_bc_check">
+                  <property name="text">
+                   <string>Check</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_bc_add">
+                  <property name="text">
+                   <string>Add</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_bc_clear">
+                  <property name="text">
+                   <string>Clear</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>316</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
@@ -502,6 +725,7 @@
      </widget>
      <addaction name="actionProject"/>
      <addaction name="menuLattice_Model"/>
+     <addaction name="actionSaveMaterial"/>
     </widget>
     <widget class="QMenu" name="menuImport">
      <property name="title">
@@ -509,6 +733,7 @@
      </property>
      <addaction name="actionImportProject"/>
      <addaction name="actionImportStaticModel"/>
+     <addaction name="actionImportMaterial"/>
     </widget>
     <addaction name="menuSave"/>
     <addaction name="menuImport"/>
@@ -518,18 +743,45 @@
     <property name="title">
      <string>Modules</string>
     </property>
-    <widget class="QMenu" name="menuAdd_Structure">
+    <widget class="QMenu" name="menuAdd_Boundary_Conditions">
      <property name="title">
-      <string>Add Structure</string>
+      <string>Add Boundary Conditions</string>
      </property>
-     <addaction name="actionAdd_Body"/>
-     <addaction name="actionAdd_Strut"/>
-     <addaction name="actionAdd_Brick"/>
+     <widget class="QMenu" name="menuDisplacement">
+      <property name="title">
+       <string>Displacement</string>
+      </property>
+      <addaction name="actionLinear_Displacement"/>
+      <addaction name="actionPlanar_Displacement"/>
+     </widget>
+     <widget class="QMenu" name="menuFixed_Support">
+      <property name="title">
+       <string>Fixed Support</string>
+      </property>
+      <addaction name="actionPlanar_Fixed_Support"/>
+      <addaction name="actionLinear_Fixed_Support"/>
+     </widget>
+     <widget class="QMenu" name="menuForce">
+      <property name="title">
+       <string>Force</string>
+      </property>
+      <addaction name="actionLinear_Force"/>
+      <addaction name="actionPlanar_Force"/>
+     </widget>
+     <addaction name="menuFixed_Support"/>
+     <addaction name="menuDisplacement"/>
+     <addaction name="menuForce"/>
     </widget>
-    <addaction name="menuAdd_Structure"/>
-    <addaction name="actionAdd_Boundary_Conditions"/>
-    <addaction name="actionSolver"/>
+    <widget class="QMenu" name="menuSolver">
+     <property name="title">
+      <string>Solver</string>
+     </property>
+     <addaction name="actionSolve_Mathematical_Model"/>
+    </widget>
+    <addaction name="menuAdd_Boundary_Conditions"/>
+    <addaction name="menuSolver"/>
     <addaction name="actionResults"/>
+    <addaction name="actionMaterial"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -547,12 +799,70 @@
      <addaction name="actionLeft"/>
      <addaction name="actionBottom"/>
     </widget>
+    <widget class="QMenu" name="menuProperties">
+     <property name="title">
+      <string>Properties</string>
+     </property>
+     <widget class="QMenu" name="menuElement_Properties">
+      <property name="title">
+       <string>Element Properties</string>
+      </property>
+      <addaction name="actionVon_Misses_Stress"/>
+      <addaction name="actionVon_Misses_Strain"/>
+      <addaction name="actionVon_Misses_Energy"/>
+     </widget>
+     <widget class="QMenu" name="menuNode_Displacements">
+      <property name="title">
+       <string>Node Displacements</string>
+      </property>
+      <addaction name="actionTotal_Displacement"/>
+      <addaction name="actionX_Displacement"/>
+      <addaction name="actionY_Displacement"/>
+      <addaction name="actionZ_Displacement"/>
+     </widget>
+     <widget class="QMenu" name="menuNode_Forces">
+      <property name="title">
+       <string>Node Forces</string>
+      </property>
+      <addaction name="actionTotal_Forces"/>
+      <addaction name="actionX_Forces"/>
+      <addaction name="actionY_Forces"/>
+      <addaction name="actionZ_Forces"/>
+     </widget>
+     <widget class="QMenu" name="menuNode_Boundary_Conditions">
+      <property name="title">
+       <string>Node Boundary Conditions</string>
+      </property>
+      <addaction name="actionDisplacement_Applied"/>
+      <addaction name="actionRest_Applied"/>
+      <addaction name="actionForce_Applied"/>
+     </widget>
+     <addaction name="menuElement_Properties"/>
+     <addaction name="menuNode_Displacements"/>
+     <addaction name="menuNode_Forces"/>
+     <addaction name="menuNode_Boundary_Conditions"/>
+    </widget>
+    <widget class="QMenu" name="menuSolid_View">
+     <property name="title">
+      <string>Solid View</string>
+     </property>
+     <addaction name="actionFull_Solid"/>
+     <addaction name="actionHalf_Transparent"/>
+    </widget>
     <addaction name="menuView_Angle"/>
-    <addaction name="actionProperties"/>
+    <addaction name="menuProperties"/>
+    <addaction name="menuSolid_View"/>
+   </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actionSolver_Options"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuModules"/>
    <addaction name="menuView"/>
+   <addaction name="menuOptions"/>
   </widget>
   <action name="actionIsometric">
    <property name="text">
@@ -619,49 +929,144 @@
     <string>Static Model</string>
    </property>
   </action>
-  <action name="actionHomogenizer_Data">
-   <property name="text">
-    <string>Homogenizer Data</string>
-   </property>
-  </action>
-  <action name="actionHomogenizer_Menu">
-   <property name="text">
-    <string>Homogenizer Menu</string>
-   </property>
-  </action>
-  <action name="actionAdd_Body">
-   <property name="text">
-    <string>Add Body</string>
-   </property>
-  </action>
-  <action name="actionAdd_Strut">
-   <property name="text">
-    <string>Add Strut</string>
-   </property>
-  </action>
-  <action name="actionAdd_Brick">
-   <property name="text">
-    <string>Add Brick</string>
-   </property>
-  </action>
-  <action name="actionAdd_Boundary_Conditions">
-   <property name="text">
-    <string>Add Boundary Conditions</string>
-   </property>
-  </action>
-  <action name="actionSolver">
-   <property name="text">
-    <string>Solver</string>
-   </property>
-  </action>
   <action name="actionResults">
    <property name="text">
     <string>Results</string>
    </property>
   </action>
-  <action name="actionProperties">
+  <action name="actionSolve_Mathematical_Model">
    <property name="text">
-    <string>Properties</string>
+    <string>Solve Mathematical Model</string>
+   </property>
+  </action>
+  <action name="actionPlanar_Fixed_Support">
+   <property name="text">
+    <string>Planar Fixed Support</string>
+   </property>
+  </action>
+  <action name="actionLinear_Fixed_Support">
+   <property name="text">
+    <string>Linear Fixed Support</string>
+   </property>
+  </action>
+  <action name="actionLinear_Displacement">
+   <property name="text">
+    <string>Linear Displacement</string>
+   </property>
+  </action>
+  <action name="actionPlanar_Displacement">
+   <property name="text">
+    <string>Planar Displacement</string>
+   </property>
+  </action>
+  <action name="actionLinear_Force">
+   <property name="text">
+    <string>Linear Force</string>
+   </property>
+  </action>
+  <action name="actionPlanar_Force">
+   <property name="text">
+    <string>Planar Force</string>
+   </property>
+  </action>
+  <action name="actionImportMaterial">
+   <property name="text">
+    <string>Material</string>
+   </property>
+  </action>
+  <action name="actionSolver_Options">
+   <property name="text">
+    <string>Solver Options</string>
+   </property>
+  </action>
+  <action name="actionMaterial">
+   <property name="text">
+    <string>Material</string>
+   </property>
+  </action>
+  <action name="actionSaveMaterial">
+   <property name="text">
+    <string>Material</string>
+   </property>
+  </action>
+  <action name="actionVon_Misses_Stress">
+   <property name="text">
+    <string>Von Misses Stress</string>
+   </property>
+  </action>
+  <action name="actionVon_Misses_Strain">
+   <property name="text">
+    <string>Von Misses Strain</string>
+   </property>
+  </action>
+  <action name="actionVon_Misses_Energy">
+   <property name="text">
+    <string>Von Misses Energy</string>
+   </property>
+  </action>
+  <action name="actionTotal_Displacement">
+   <property name="text">
+    <string>Total Displacement</string>
+   </property>
+  </action>
+  <action name="actionX_Displacement">
+   <property name="text">
+    <string>X Displacement</string>
+   </property>
+  </action>
+  <action name="actionY_Displacement">
+   <property name="text">
+    <string>Y Displacement</string>
+   </property>
+  </action>
+  <action name="actionZ_Displacement">
+   <property name="text">
+    <string>Z Displacement</string>
+   </property>
+  </action>
+  <action name="actionFull_Solid">
+   <property name="text">
+    <string>Full Solid</string>
+   </property>
+  </action>
+  <action name="actionHalf_Transparent">
+   <property name="text">
+    <string>Half Transparent</string>
+   </property>
+  </action>
+  <action name="actionTotal_Forces">
+   <property name="text">
+    <string>Total Forces</string>
+   </property>
+  </action>
+  <action name="actionX_Forces">
+   <property name="text">
+    <string>X Forces</string>
+   </property>
+  </action>
+  <action name="actionY_Forces">
+   <property name="text">
+    <string>Y Forces</string>
+   </property>
+  </action>
+  <action name="actionZ_Forces">
+   <property name="text">
+    <string>Z Forces</string>
+   </property>
+  </action>
+  <action name="actionDisplacement_Applied">
+   <property name="text">
+    <string>Displacement Applied</string>
+   </property>
+  </action>
+  <action name="actionRest_Applied">
+   <property name="text">
+    <string>Rest Applied</string>
+   </property>
+  </action>
+  <action name="actionForce_Applied">
+   <property name="text">
+    <string>Force Applied</string>
    </property>
   </action>
  </widget>

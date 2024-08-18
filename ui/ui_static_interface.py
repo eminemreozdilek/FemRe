@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'static_interfacemLleiX.ui'
+## Form generated from reading UI file 'static_interfaceuWDJuU.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.4.3
 ##
@@ -16,10 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
-    QLabel, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QSpacerItem, QSpinBox,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDoubleSpinBox,
+    QFrame, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QMainWindow, QMenu, QMenuBar,
+    QPushButton, QSizePolicy, QSpacerItem, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_CellulozStatic(object):
     def setupUi(self, CellulozStatic):
@@ -52,24 +53,62 @@ class Ui_CellulozStatic(object):
         self.actionImportProject.setObjectName(u"actionImportProject")
         self.actionImportStaticModel = QAction(CellulozStatic)
         self.actionImportStaticModel.setObjectName(u"actionImportStaticModel")
-        self.actionHomogenizer_Data = QAction(CellulozStatic)
-        self.actionHomogenizer_Data.setObjectName(u"actionHomogenizer_Data")
-        self.actionHomogenizer_Menu = QAction(CellulozStatic)
-        self.actionHomogenizer_Menu.setObjectName(u"actionHomogenizer_Menu")
-        self.actionAdd_Body = QAction(CellulozStatic)
-        self.actionAdd_Body.setObjectName(u"actionAdd_Body")
-        self.actionAdd_Strut = QAction(CellulozStatic)
-        self.actionAdd_Strut.setObjectName(u"actionAdd_Strut")
-        self.actionAdd_Brick = QAction(CellulozStatic)
-        self.actionAdd_Brick.setObjectName(u"actionAdd_Brick")
-        self.actionAdd_Boundary_Conditions = QAction(CellulozStatic)
-        self.actionAdd_Boundary_Conditions.setObjectName(u"actionAdd_Boundary_Conditions")
-        self.actionSolver = QAction(CellulozStatic)
-        self.actionSolver.setObjectName(u"actionSolver")
         self.actionResults = QAction(CellulozStatic)
         self.actionResults.setObjectName(u"actionResults")
-        self.actionProperties = QAction(CellulozStatic)
-        self.actionProperties.setObjectName(u"actionProperties")
+        self.actionSolve_Mathematical_Model = QAction(CellulozStatic)
+        self.actionSolve_Mathematical_Model.setObjectName(u"actionSolve_Mathematical_Model")
+        self.actionPlanar_Fixed_Support = QAction(CellulozStatic)
+        self.actionPlanar_Fixed_Support.setObjectName(u"actionPlanar_Fixed_Support")
+        self.actionLinear_Fixed_Support = QAction(CellulozStatic)
+        self.actionLinear_Fixed_Support.setObjectName(u"actionLinear_Fixed_Support")
+        self.actionLinear_Displacement = QAction(CellulozStatic)
+        self.actionLinear_Displacement.setObjectName(u"actionLinear_Displacement")
+        self.actionPlanar_Displacement = QAction(CellulozStatic)
+        self.actionPlanar_Displacement.setObjectName(u"actionPlanar_Displacement")
+        self.actionLinear_Force = QAction(CellulozStatic)
+        self.actionLinear_Force.setObjectName(u"actionLinear_Force")
+        self.actionPlanar_Force = QAction(CellulozStatic)
+        self.actionPlanar_Force.setObjectName(u"actionPlanar_Force")
+        self.actionImportMaterial = QAction(CellulozStatic)
+        self.actionImportMaterial.setObjectName(u"actionImportMaterial")
+        self.actionSolver_Options = QAction(CellulozStatic)
+        self.actionSolver_Options.setObjectName(u"actionSolver_Options")
+        self.actionMaterial = QAction(CellulozStatic)
+        self.actionMaterial.setObjectName(u"actionMaterial")
+        self.actionSaveMaterial = QAction(CellulozStatic)
+        self.actionSaveMaterial.setObjectName(u"actionSaveMaterial")
+        self.actionVon_Misses_Stress = QAction(CellulozStatic)
+        self.actionVon_Misses_Stress.setObjectName(u"actionVon_Misses_Stress")
+        self.actionVon_Misses_Strain = QAction(CellulozStatic)
+        self.actionVon_Misses_Strain.setObjectName(u"actionVon_Misses_Strain")
+        self.actionVon_Misses_Energy = QAction(CellulozStatic)
+        self.actionVon_Misses_Energy.setObjectName(u"actionVon_Misses_Energy")
+        self.actionTotal_Displacement = QAction(CellulozStatic)
+        self.actionTotal_Displacement.setObjectName(u"actionTotal_Displacement")
+        self.actionX_Displacement = QAction(CellulozStatic)
+        self.actionX_Displacement.setObjectName(u"actionX_Displacement")
+        self.actionY_Displacement = QAction(CellulozStatic)
+        self.actionY_Displacement.setObjectName(u"actionY_Displacement")
+        self.actionZ_Displacement = QAction(CellulozStatic)
+        self.actionZ_Displacement.setObjectName(u"actionZ_Displacement")
+        self.actionFull_Solid = QAction(CellulozStatic)
+        self.actionFull_Solid.setObjectName(u"actionFull_Solid")
+        self.actionHalf_Transparent = QAction(CellulozStatic)
+        self.actionHalf_Transparent.setObjectName(u"actionHalf_Transparent")
+        self.actionTotal_Forces = QAction(CellulozStatic)
+        self.actionTotal_Forces.setObjectName(u"actionTotal_Forces")
+        self.actionX_Forces = QAction(CellulozStatic)
+        self.actionX_Forces.setObjectName(u"actionX_Forces")
+        self.actionY_Forces = QAction(CellulozStatic)
+        self.actionY_Forces.setObjectName(u"actionY_Forces")
+        self.actionZ_Forces = QAction(CellulozStatic)
+        self.actionZ_Forces.setObjectName(u"actionZ_Forces")
+        self.actionDisplacement_Applied = QAction(CellulozStatic)
+        self.actionDisplacement_Applied.setObjectName(u"actionDisplacement_Applied")
+        self.actionRest_Applied = QAction(CellulozStatic)
+        self.actionRest_Applied.setObjectName(u"actionRest_Applied")
+        self.actionForce_Applied = QAction(CellulozStatic)
+        self.actionForce_Applied.setObjectName(u"actionForce_Applied")
         self.centralwidget = QWidget(CellulozStatic)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -104,150 +143,293 @@ class Ui_CellulozStatic(object):
         self.frame_model_properties = QFrame(self.frame_main)
         self.frame_model_properties.setObjectName(u"frame_model_properties")
         self.frame_model_properties.setMinimumSize(QSize(0, 0))
-        self.frame_model_properties.setMaximumSize(QSize(700, 16777215))
+        self.frame_model_properties.setMaximumSize(QSize(0, 16777215))
         self.frame_model_properties.setFrameShape(QFrame.StyledPanel)
         self.frame_model_properties.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_3 = QHBoxLayout(self.frame_model_properties)
         self.horizontalLayout_3.setSpacing(5)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_3.setContentsMargins(5, 5, 5, 5)
-        self.frame_strut_lister = QFrame(self.frame_model_properties)
-        self.frame_strut_lister.setObjectName(u"frame_strut_lister")
-        self.frame_strut_lister.setMaximumSize(QSize(700, 16777215))
-        self.frame_strut_lister.setFrameShape(QFrame.StyledPanel)
-        self.frame_strut_lister.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_2 = QVBoxLayout(self.frame_strut_lister)
+        self.frame_material = QFrame(self.frame_model_properties)
+        self.frame_material.setObjectName(u"frame_material")
+        self.frame_material.setMaximumSize(QSize(700, 16777215))
+        self.frame_material.setFrameShape(QFrame.StyledPanel)
+        self.frame_material.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_2 = QVBoxLayout(self.frame_material)
         self.verticalLayout_2.setSpacing(5)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(5, 5, 5, 5)
-        self.tableWidget_node = QTableWidget(self.frame_strut_lister)
-        if (self.tableWidget_node.columnCount() < 13):
-            self.tableWidget_node.setColumnCount(13)
-        __qtablewidgetitem = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(0, __qtablewidgetitem)
-        __qtablewidgetitem1 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(1, __qtablewidgetitem1)
-        __qtablewidgetitem2 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(2, __qtablewidgetitem2)
-        __qtablewidgetitem3 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(3, __qtablewidgetitem3)
-        __qtablewidgetitem4 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(4, __qtablewidgetitem4)
-        __qtablewidgetitem5 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(5, __qtablewidgetitem5)
-        __qtablewidgetitem6 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(6, __qtablewidgetitem6)
-        __qtablewidgetitem7 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(7, __qtablewidgetitem7)
-        __qtablewidgetitem8 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(8, __qtablewidgetitem8)
-        __qtablewidgetitem9 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(9, __qtablewidgetitem9)
-        __qtablewidgetitem10 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(10, __qtablewidgetitem10)
-        __qtablewidgetitem11 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(11, __qtablewidgetitem11)
-        __qtablewidgetitem12 = QTableWidgetItem()
-        self.tableWidget_node.setHorizontalHeaderItem(12, __qtablewidgetitem12)
-        self.tableWidget_node.setObjectName(u"tableWidget_node")
-        self.tableWidget_node.setMinimumSize(QSize(0, 350))
-        self.tableWidget_node.setMaximumSize(QSize(16777215, 350))
-        self.tableWidget_node.horizontalHeader().setDefaultSectionSize(50)
-
-        self.verticalLayout_2.addWidget(self.tableWidget_node)
-
-        self.tableWidget_strut = QTableWidget(self.frame_strut_lister)
-        if (self.tableWidget_strut.columnCount() < 9):
-            self.tableWidget_strut.setColumnCount(9)
-        __qtablewidgetitem13 = QTableWidgetItem()
-        self.tableWidget_strut.setHorizontalHeaderItem(0, __qtablewidgetitem13)
-        __qtablewidgetitem14 = QTableWidgetItem()
-        self.tableWidget_strut.setHorizontalHeaderItem(1, __qtablewidgetitem14)
-        __qtablewidgetitem15 = QTableWidgetItem()
-        self.tableWidget_strut.setHorizontalHeaderItem(2, __qtablewidgetitem15)
-        __qtablewidgetitem16 = QTableWidgetItem()
-        self.tableWidget_strut.setHorizontalHeaderItem(3, __qtablewidgetitem16)
-        __qtablewidgetitem17 = QTableWidgetItem()
-        self.tableWidget_strut.setHorizontalHeaderItem(4, __qtablewidgetitem17)
-        __qtablewidgetitem18 = QTableWidgetItem()
-        self.tableWidget_strut.setHorizontalHeaderItem(5, __qtablewidgetitem18)
-        __qtablewidgetitem19 = QTableWidgetItem()
-        self.tableWidget_strut.setHorizontalHeaderItem(6, __qtablewidgetitem19)
-        __qtablewidgetitem20 = QTableWidgetItem()
-        self.tableWidget_strut.setHorizontalHeaderItem(7, __qtablewidgetitem20)
-        __qtablewidgetitem21 = QTableWidgetItem()
-        self.tableWidget_strut.setHorizontalHeaderItem(8, __qtablewidgetitem21)
-        self.tableWidget_strut.setObjectName(u"tableWidget_strut")
-        self.tableWidget_strut.setMinimumSize(QSize(0, 350))
-        self.tableWidget_strut.setMaximumSize(QSize(16777215, 350))
-        self.tableWidget_strut.horizontalHeader().setDefaultSectionSize(70)
-
-        self.verticalLayout_2.addWidget(self.tableWidget_strut)
-
-        self.tableWidget_material = QTableWidget(self.frame_strut_lister)
+        self.tableWidget_material = QTableWidget(self.frame_material)
         if (self.tableWidget_material.columnCount() < 10):
             self.tableWidget_material.setColumnCount(10)
-        __qtablewidgetitem22 = QTableWidgetItem()
-        self.tableWidget_material.setHorizontalHeaderItem(0, __qtablewidgetitem22)
-        __qtablewidgetitem23 = QTableWidgetItem()
-        self.tableWidget_material.setHorizontalHeaderItem(1, __qtablewidgetitem23)
-        __qtablewidgetitem24 = QTableWidgetItem()
-        self.tableWidget_material.setHorizontalHeaderItem(2, __qtablewidgetitem24)
-        __qtablewidgetitem25 = QTableWidgetItem()
-        self.tableWidget_material.setHorizontalHeaderItem(3, __qtablewidgetitem25)
-        __qtablewidgetitem26 = QTableWidgetItem()
-        self.tableWidget_material.setHorizontalHeaderItem(4, __qtablewidgetitem26)
-        __qtablewidgetitem27 = QTableWidgetItem()
-        self.tableWidget_material.setHorizontalHeaderItem(5, __qtablewidgetitem27)
-        __qtablewidgetitem28 = QTableWidgetItem()
-        self.tableWidget_material.setHorizontalHeaderItem(6, __qtablewidgetitem28)
-        __qtablewidgetitem29 = QTableWidgetItem()
-        self.tableWidget_material.setHorizontalHeaderItem(7, __qtablewidgetitem29)
-        __qtablewidgetitem30 = QTableWidgetItem()
-        self.tableWidget_material.setHorizontalHeaderItem(8, __qtablewidgetitem30)
-        __qtablewidgetitem31 = QTableWidgetItem()
-        self.tableWidget_material.setHorizontalHeaderItem(9, __qtablewidgetitem31)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.tableWidget_material.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.tableWidget_material.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.tableWidget_material.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.tableWidget_material.setHorizontalHeaderItem(3, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.tableWidget_material.setHorizontalHeaderItem(4, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tableWidget_material.setHorizontalHeaderItem(5, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tableWidget_material.setHorizontalHeaderItem(6, __qtablewidgetitem6)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        self.tableWidget_material.setHorizontalHeaderItem(7, __qtablewidgetitem7)
+        __qtablewidgetitem8 = QTableWidgetItem()
+        self.tableWidget_material.setHorizontalHeaderItem(8, __qtablewidgetitem8)
+        __qtablewidgetitem9 = QTableWidgetItem()
+        self.tableWidget_material.setHorizontalHeaderItem(9, __qtablewidgetitem9)
         self.tableWidget_material.setObjectName(u"tableWidget_material")
-        self.tableWidget_material.setMinimumSize(QSize(0, 100))
-        self.tableWidget_material.setMaximumSize(QSize(16777215, 100))
+        self.tableWidget_material.setMinimumSize(QSize(0, 300))
+        self.tableWidget_material.setMaximumSize(QSize(16777215, 16777215))
         self.tableWidget_material.horizontalHeader().setDefaultSectionSize(70)
 
         self.verticalLayout_2.addWidget(self.tableWidget_material)
 
-        self.label_25 = QLabel(self.frame_strut_lister)
-        self.label_25.setObjectName(u"label_25")
 
-        self.verticalLayout_2.addWidget(self.label_25)
-
-        self.spinBox_model_resolution = QSpinBox(self.frame_strut_lister)
-        self.spinBox_model_resolution.setObjectName(u"spinBox_model_resolution")
-        self.spinBox_model_resolution.setMinimum(10)
-        self.spinBox_model_resolution.setMaximum(200)
-        self.spinBox_model_resolution.setValue(50)
-
-        self.verticalLayout_2.addWidget(self.spinBox_model_resolution)
-
-        self.pushButton_regenerate_model = QPushButton(self.frame_strut_lister)
-        self.pushButton_regenerate_model.setObjectName(u"pushButton_regenerate_model")
-
-        self.verticalLayout_2.addWidget(self.pushButton_regenerate_model)
-
-        self.pushButton_save_model = QPushButton(self.frame_strut_lister)
-        self.pushButton_save_model.setObjectName(u"pushButton_save_model")
-
-        self.verticalLayout_2.addWidget(self.pushButton_save_model)
-
-
-        self.horizontalLayout_3.addWidget(self.frame_strut_lister)
+        self.horizontalLayout_3.addWidget(self.frame_material)
 
 
         self.horizontalLayout.addWidget(self.frame_model_properties)
 
         self.frame_fem_preprocessor = QFrame(self.frame_main)
         self.frame_fem_preprocessor.setObjectName(u"frame_fem_preprocessor")
-        self.frame_fem_preprocessor.setMaximumSize(QSize(0, 16777215))
+        self.frame_fem_preprocessor.setMaximumSize(QSize(250, 16777215))
         self.frame_fem_preprocessor.setFrameShape(QFrame.StyledPanel)
         self.frame_fem_preprocessor.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_3 = QVBoxLayout(self.frame_fem_preprocessor)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.checkBox_adaptive_shine_selection_nodes = QCheckBox(self.frame_fem_preprocessor)
+        self.checkBox_adaptive_shine_selection_nodes.setObjectName(u"checkBox_adaptive_shine_selection_nodes")
+
+        self.verticalLayout_3.addWidget(self.checkBox_adaptive_shine_selection_nodes)
+
+        self.frame_bc_center = QFrame(self.frame_fem_preprocessor)
+        self.frame_bc_center.setObjectName(u"frame_bc_center")
+        self.frame_bc_center.setFrameShape(QFrame.StyledPanel)
+        self.frame_bc_center.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_5 = QVBoxLayout(self.frame_bc_center)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.label = QLabel(self.frame_bc_center)
+        self.label.setObjectName(u"label")
+
+        self.verticalLayout_5.addWidget(self.label)
+
+        self.label_x = QLabel(self.frame_bc_center)
+        self.label_x.setObjectName(u"label_x")
+
+        self.verticalLayout_5.addWidget(self.label_x)
+
+        self.doubleSpinBox_x_coordinate = QDoubleSpinBox(self.frame_bc_center)
+        self.doubleSpinBox_x_coordinate.setObjectName(u"doubleSpinBox_x_coordinate")
+        self.doubleSpinBox_x_coordinate.setDecimals(6)
+        self.doubleSpinBox_x_coordinate.setMinimum(-1000000.000000000000000)
+        self.doubleSpinBox_x_coordinate.setMaximum(1000000.000000000000000)
+
+        self.verticalLayout_5.addWidget(self.doubleSpinBox_x_coordinate)
+
+        self.label_3 = QLabel(self.frame_bc_center)
+        self.label_3.setObjectName(u"label_3")
+
+        self.verticalLayout_5.addWidget(self.label_3)
+
+        self.doubleSpinBox_y_coordinate = QDoubleSpinBox(self.frame_bc_center)
+        self.doubleSpinBox_y_coordinate.setObjectName(u"doubleSpinBox_y_coordinate")
+        self.doubleSpinBox_y_coordinate.setDecimals(6)
+        self.doubleSpinBox_y_coordinate.setMinimum(-1000000.000000000000000)
+        self.doubleSpinBox_y_coordinate.setMaximum(1000000.000000000000000)
+
+        self.verticalLayout_5.addWidget(self.doubleSpinBox_y_coordinate)
+
+        self.label_4 = QLabel(self.frame_bc_center)
+        self.label_4.setObjectName(u"label_4")
+
+        self.verticalLayout_5.addWidget(self.label_4)
+
+        self.doubleSpinBox_z_coordinate = QDoubleSpinBox(self.frame_bc_center)
+        self.doubleSpinBox_z_coordinate.setObjectName(u"doubleSpinBox_z_coordinate")
+        self.doubleSpinBox_z_coordinate.setDecimals(6)
+        self.doubleSpinBox_z_coordinate.setMinimum(-1000000.000000000000000)
+        self.doubleSpinBox_z_coordinate.setMaximum(1000000.000000000000000)
+
+        self.verticalLayout_5.addWidget(self.doubleSpinBox_z_coordinate)
+
+
+        self.verticalLayout_3.addWidget(self.frame_bc_center)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.verticalLayout_3.addItem(self.verticalSpacer_2)
+
+        self.frame_volumetric_choosing = QFrame(self.frame_fem_preprocessor)
+        self.frame_volumetric_choosing.setObjectName(u"frame_volumetric_choosing")
+        self.frame_volumetric_choosing.setFrameShape(QFrame.StyledPanel)
+        self.frame_volumetric_choosing.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_4 = QVBoxLayout(self.frame_volumetric_choosing)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.label_8 = QLabel(self.frame_volumetric_choosing)
+        self.label_8.setObjectName(u"label_8")
+
+        self.verticalLayout_4.addWidget(self.label_8)
+
+        self.label_5 = QLabel(self.frame_volumetric_choosing)
+        self.label_5.setObjectName(u"label_5")
+
+        self.verticalLayout_4.addWidget(self.label_5)
+
+        self.doubleSpinBox_x_coordinate_volume = QDoubleSpinBox(self.frame_volumetric_choosing)
+        self.doubleSpinBox_x_coordinate_volume.setObjectName(u"doubleSpinBox_x_coordinate_volume")
+        self.doubleSpinBox_x_coordinate_volume.setDecimals(6)
+        self.doubleSpinBox_x_coordinate_volume.setMinimum(-1000000.000000000000000)
+        self.doubleSpinBox_x_coordinate_volume.setMaximum(1000000.000000000000000)
+
+        self.verticalLayout_4.addWidget(self.doubleSpinBox_x_coordinate_volume)
+
+        self.label_7 = QLabel(self.frame_volumetric_choosing)
+        self.label_7.setObjectName(u"label_7")
+
+        self.verticalLayout_4.addWidget(self.label_7)
+
+        self.doubleSpinBox_y_coordinate_volume = QDoubleSpinBox(self.frame_volumetric_choosing)
+        self.doubleSpinBox_y_coordinate_volume.setObjectName(u"doubleSpinBox_y_coordinate_volume")
+        self.doubleSpinBox_y_coordinate_volume.setDecimals(6)
+        self.doubleSpinBox_y_coordinate_volume.setMinimum(-1000000.000000000000000)
+        self.doubleSpinBox_y_coordinate_volume.setMaximum(1000000.000000000000000)
+
+        self.verticalLayout_4.addWidget(self.doubleSpinBox_y_coordinate_volume)
+
+        self.label_6 = QLabel(self.frame_volumetric_choosing)
+        self.label_6.setObjectName(u"label_6")
+
+        self.verticalLayout_4.addWidget(self.label_6)
+
+        self.doubleSpinBox_z_coordinate_volume = QDoubleSpinBox(self.frame_volumetric_choosing)
+        self.doubleSpinBox_z_coordinate_volume.setObjectName(u"doubleSpinBox_z_coordinate_volume")
+        self.doubleSpinBox_z_coordinate_volume.setDecimals(6)
+        self.doubleSpinBox_z_coordinate_volume.setMinimum(-1000000.000000000000000)
+        self.doubleSpinBox_z_coordinate_volume.setMaximum(1000000.000000000000000)
+
+        self.verticalLayout_4.addWidget(self.doubleSpinBox_z_coordinate_volume)
+
+
+        self.verticalLayout_3.addWidget(self.frame_volumetric_choosing)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.verticalLayout_3.addItem(self.verticalSpacer_3)
+
+        self.frame = QFrame(self.frame_fem_preprocessor)
+        self.frame.setObjectName(u"frame")
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_6 = QVBoxLayout(self.frame)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.comboBox_bc_type = QComboBox(self.frame)
+        self.comboBox_bc_type.addItem("")
+        self.comboBox_bc_type.addItem("")
+        self.comboBox_bc_type.addItem("")
+        self.comboBox_bc_type.setObjectName(u"comboBox_bc_type")
+
+        self.verticalLayout_6.addWidget(self.comboBox_bc_type)
+
+        self.frame_2 = QFrame(self.frame)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_4 = QHBoxLayout(self.frame_2)
+        self.horizontalLayout_4.setSpacing(0)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.frame_3 = QFrame(self.frame_2)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setMinimumSize(QSize(0, 10))
+        self.frame_3.setFrameShape(QFrame.StyledPanel)
+        self.frame_3.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_7 = QVBoxLayout(self.frame_3)
+        self.verticalLayout_7.setSpacing(0)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.checkBox_bc_add_x = QCheckBox(self.frame_3)
+        self.checkBox_bc_add_x.setObjectName(u"checkBox_bc_add_x")
+
+        self.verticalLayout_7.addWidget(self.checkBox_bc_add_x)
+
+        self.checkBox_bc_add_y = QCheckBox(self.frame_3)
+        self.checkBox_bc_add_y.setObjectName(u"checkBox_bc_add_y")
+
+        self.verticalLayout_7.addWidget(self.checkBox_bc_add_y)
+
+        self.checkBox_bc_add_z = QCheckBox(self.frame_3)
+        self.checkBox_bc_add_z.setObjectName(u"checkBox_bc_add_z")
+
+        self.verticalLayout_7.addWidget(self.checkBox_bc_add_z)
+
+
+        self.horizontalLayout_4.addWidget(self.frame_3)
+
+        self.frame_4 = QFrame(self.frame_2)
+        self.frame_4.setObjectName(u"frame_4")
+        self.frame_4.setFrameShape(QFrame.StyledPanel)
+        self.frame_4.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_8 = QVBoxLayout(self.frame_4)
+        self.verticalLayout_8.setSpacing(0)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.lineEdit_value_x = QLineEdit(self.frame_4)
+        self.lineEdit_value_x.setObjectName(u"lineEdit_value_x")
+
+        self.verticalLayout_8.addWidget(self.lineEdit_value_x)
+
+        self.lineEdit_value_y = QLineEdit(self.frame_4)
+        self.lineEdit_value_y.setObjectName(u"lineEdit_value_y")
+
+        self.verticalLayout_8.addWidget(self.lineEdit_value_y)
+
+        self.lineEdit_value_z = QLineEdit(self.frame_4)
+        self.lineEdit_value_z.setObjectName(u"lineEdit_value_z")
+
+        self.verticalLayout_8.addWidget(self.lineEdit_value_z)
+
+
+        self.horizontalLayout_4.addWidget(self.frame_4)
+
+
+        self.verticalLayout_6.addWidget(self.frame_2)
+
+        self.frame_5 = QFrame(self.frame)
+        self.frame_5.setObjectName(u"frame_5")
+        self.frame_5.setFrameShape(QFrame.StyledPanel)
+        self.frame_5.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_5 = QHBoxLayout(self.frame_5)
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.pushButton_bc_check = QPushButton(self.frame_5)
+        self.pushButton_bc_check.setObjectName(u"pushButton_bc_check")
+
+        self.horizontalLayout_5.addWidget(self.pushButton_bc_check)
+
+        self.pushButton_bc_add = QPushButton(self.frame_5)
+        self.pushButton_bc_add.setObjectName(u"pushButton_bc_add")
+
+        self.horizontalLayout_5.addWidget(self.pushButton_bc_add)
+
+        self.pushButton_bc_clear = QPushButton(self.frame_5)
+        self.pushButton_bc_clear.setObjectName(u"pushButton_bc_clear")
+
+        self.horizontalLayout_5.addWidget(self.pushButton_bc_clear)
+
+
+        self.verticalLayout_6.addWidget(self.frame_5)
+
+
+        self.verticalLayout_3.addWidget(self.frame)
+
+        self.verticalSpacer = QSpacerItem(20, 316, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_3.addItem(self.verticalSpacer)
+
 
         self.horizontalLayout.addWidget(self.frame_fem_preprocessor)
 
@@ -283,35 +465,68 @@ class Ui_CellulozStatic(object):
         self.menuImport.setObjectName(u"menuImport")
         self.menuModules = QMenu(self.menubar)
         self.menuModules.setObjectName(u"menuModules")
-        self.menuAdd_Structure = QMenu(self.menuModules)
-        self.menuAdd_Structure.setObjectName(u"menuAdd_Structure")
+        self.menuAdd_Boundary_Conditions = QMenu(self.menuModules)
+        self.menuAdd_Boundary_Conditions.setObjectName(u"menuAdd_Boundary_Conditions")
+        self.menuDisplacement = QMenu(self.menuAdd_Boundary_Conditions)
+        self.menuDisplacement.setObjectName(u"menuDisplacement")
+        self.menuFixed_Support = QMenu(self.menuAdd_Boundary_Conditions)
+        self.menuFixed_Support.setObjectName(u"menuFixed_Support")
+        self.menuForce = QMenu(self.menuAdd_Boundary_Conditions)
+        self.menuForce.setObjectName(u"menuForce")
+        self.menuSolver = QMenu(self.menuModules)
+        self.menuSolver.setObjectName(u"menuSolver")
         self.menuView = QMenu(self.menubar)
         self.menuView.setObjectName(u"menuView")
         self.menuView_Angle = QMenu(self.menuView)
         self.menuView_Angle.setObjectName(u"menuView_Angle")
+        self.menuProperties = QMenu(self.menuView)
+        self.menuProperties.setObjectName(u"menuProperties")
+        self.menuElement_Properties = QMenu(self.menuProperties)
+        self.menuElement_Properties.setObjectName(u"menuElement_Properties")
+        self.menuNode_Displacements = QMenu(self.menuProperties)
+        self.menuNode_Displacements.setObjectName(u"menuNode_Displacements")
+        self.menuNode_Forces = QMenu(self.menuProperties)
+        self.menuNode_Forces.setObjectName(u"menuNode_Forces")
+        self.menuNode_Boundary_Conditions = QMenu(self.menuProperties)
+        self.menuNode_Boundary_Conditions.setObjectName(u"menuNode_Boundary_Conditions")
+        self.menuSolid_View = QMenu(self.menuView)
+        self.menuSolid_View.setObjectName(u"menuSolid_View")
+        self.menuOptions = QMenu(self.menubar)
+        self.menuOptions.setObjectName(u"menuOptions")
         CellulozStatic.setMenuBar(self.menubar)
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuModules.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
+        self.menubar.addAction(self.menuOptions.menuAction())
         self.menuFile.addAction(self.menuSave.menuAction())
         self.menuFile.addAction(self.menuImport.menuAction())
         self.menuFile.addAction(self.actionPicture)
         self.menuSave.addAction(self.actionProject)
         self.menuSave.addAction(self.menuLattice_Model.menuAction())
+        self.menuSave.addAction(self.actionSaveMaterial)
         self.menuLattice_Model.addAction(self.actionGeometry)
         self.menuLattice_Model.addAction(self.actionHomogenization_Results)
         self.menuImport.addAction(self.actionImportProject)
         self.menuImport.addAction(self.actionImportStaticModel)
-        self.menuModules.addAction(self.menuAdd_Structure.menuAction())
-        self.menuModules.addAction(self.actionAdd_Boundary_Conditions)
-        self.menuModules.addAction(self.actionSolver)
+        self.menuImport.addAction(self.actionImportMaterial)
+        self.menuModules.addAction(self.menuAdd_Boundary_Conditions.menuAction())
+        self.menuModules.addAction(self.menuSolver.menuAction())
         self.menuModules.addAction(self.actionResults)
-        self.menuAdd_Structure.addAction(self.actionAdd_Body)
-        self.menuAdd_Structure.addAction(self.actionAdd_Strut)
-        self.menuAdd_Structure.addAction(self.actionAdd_Brick)
+        self.menuModules.addAction(self.actionMaterial)
+        self.menuAdd_Boundary_Conditions.addAction(self.menuFixed_Support.menuAction())
+        self.menuAdd_Boundary_Conditions.addAction(self.menuDisplacement.menuAction())
+        self.menuAdd_Boundary_Conditions.addAction(self.menuForce.menuAction())
+        self.menuDisplacement.addAction(self.actionLinear_Displacement)
+        self.menuDisplacement.addAction(self.actionPlanar_Displacement)
+        self.menuFixed_Support.addAction(self.actionPlanar_Fixed_Support)
+        self.menuFixed_Support.addAction(self.actionLinear_Fixed_Support)
+        self.menuForce.addAction(self.actionLinear_Force)
+        self.menuForce.addAction(self.actionPlanar_Force)
+        self.menuSolver.addAction(self.actionSolve_Mathematical_Model)
         self.menuView.addAction(self.menuView_Angle.menuAction())
-        self.menuView.addAction(self.actionProperties)
+        self.menuView.addAction(self.menuProperties.menuAction())
+        self.menuView.addAction(self.menuSolid_View.menuAction())
         self.menuView_Angle.addAction(self.actionIsometric)
         self.menuView_Angle.addAction(self.actionFront)
         self.menuView_Angle.addAction(self.actionRight)
@@ -319,6 +534,27 @@ class Ui_CellulozStatic(object):
         self.menuView_Angle.addAction(self.actionBack)
         self.menuView_Angle.addAction(self.actionLeft)
         self.menuView_Angle.addAction(self.actionBottom)
+        self.menuProperties.addAction(self.menuElement_Properties.menuAction())
+        self.menuProperties.addAction(self.menuNode_Displacements.menuAction())
+        self.menuProperties.addAction(self.menuNode_Forces.menuAction())
+        self.menuProperties.addAction(self.menuNode_Boundary_Conditions.menuAction())
+        self.menuElement_Properties.addAction(self.actionVon_Misses_Stress)
+        self.menuElement_Properties.addAction(self.actionVon_Misses_Strain)
+        self.menuElement_Properties.addAction(self.actionVon_Misses_Energy)
+        self.menuNode_Displacements.addAction(self.actionTotal_Displacement)
+        self.menuNode_Displacements.addAction(self.actionX_Displacement)
+        self.menuNode_Displacements.addAction(self.actionY_Displacement)
+        self.menuNode_Displacements.addAction(self.actionZ_Displacement)
+        self.menuNode_Forces.addAction(self.actionTotal_Forces)
+        self.menuNode_Forces.addAction(self.actionX_Forces)
+        self.menuNode_Forces.addAction(self.actionY_Forces)
+        self.menuNode_Forces.addAction(self.actionZ_Forces)
+        self.menuNode_Boundary_Conditions.addAction(self.actionDisplacement_Applied)
+        self.menuNode_Boundary_Conditions.addAction(self.actionRest_Applied)
+        self.menuNode_Boundary_Conditions.addAction(self.actionForce_Applied)
+        self.menuSolid_View.addAction(self.actionFull_Solid)
+        self.menuSolid_View.addAction(self.actionHalf_Transparent)
+        self.menuOptions.addAction(self.actionSolver_Options)
 
         self.retranslateUi(CellulozStatic)
 
@@ -326,7 +562,7 @@ class Ui_CellulozStatic(object):
     # setupUi
 
     def retranslateUi(self, CellulozStatic):
-        CellulozStatic.setWindowTitle(QCoreApplication.translate("CellulozStatic", u"Celluloz Static", None))
+        CellulozStatic.setWindowTitle(QCoreApplication.translate("CellulozStatic", u"FemRe Static", None))
         self.actionIsometric.setText(QCoreApplication.translate("CellulozStatic", u"Isometric", None))
         self.actionFront.setText(QCoreApplication.translate("CellulozStatic", u"Front", None))
         self.actionRight.setText(QCoreApplication.translate("CellulozStatic", u"Right", None))
@@ -340,89 +576,94 @@ class Ui_CellulozStatic(object):
         self.actionPicture.setText(QCoreApplication.translate("CellulozStatic", u"Picture", None))
         self.actionImportProject.setText(QCoreApplication.translate("CellulozStatic", u"Project", None))
         self.actionImportStaticModel.setText(QCoreApplication.translate("CellulozStatic", u"Static Model", None))
-        self.actionHomogenizer_Data.setText(QCoreApplication.translate("CellulozStatic", u"Homogenizer Data", None))
-        self.actionHomogenizer_Menu.setText(QCoreApplication.translate("CellulozStatic", u"Homogenizer Menu", None))
-        self.actionAdd_Body.setText(QCoreApplication.translate("CellulozStatic", u"Add Body", None))
-        self.actionAdd_Strut.setText(QCoreApplication.translate("CellulozStatic", u"Add Strut", None))
-        self.actionAdd_Brick.setText(QCoreApplication.translate("CellulozStatic", u"Add Brick", None))
-        self.actionAdd_Boundary_Conditions.setText(QCoreApplication.translate("CellulozStatic", u"Add Boundary Conditions", None))
-        self.actionSolver.setText(QCoreApplication.translate("CellulozStatic", u"Solver", None))
         self.actionResults.setText(QCoreApplication.translate("CellulozStatic", u"Results", None))
-        self.actionProperties.setText(QCoreApplication.translate("CellulozStatic", u"Properties", None))
-        ___qtablewidgetitem = self.tableWidget_node.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("CellulozStatic", u"Name", None));
-        ___qtablewidgetitem1 = self.tableWidget_node.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("CellulozStatic", u"X", None));
-        ___qtablewidgetitem2 = self.tableWidget_node.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("CellulozStatic", u"Y", None));
-        ___qtablewidgetitem3 = self.tableWidget_node.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("CellulozStatic", u"Z", None));
-        ___qtablewidgetitem4 = self.tableWidget_node.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("CellulozStatic", u"Force X", None));
-        ___qtablewidgetitem5 = self.tableWidget_node.horizontalHeaderItem(5)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("CellulozStatic", u"Force Y", None));
-        ___qtablewidgetitem6 = self.tableWidget_node.horizontalHeaderItem(6)
-        ___qtablewidgetitem6.setText(QCoreApplication.translate("CellulozStatic", u"Force Z", None));
-        ___qtablewidgetitem7 = self.tableWidget_node.horizontalHeaderItem(7)
-        ___qtablewidgetitem7.setText(QCoreApplication.translate("CellulozStatic", u"Rest X", None));
-        ___qtablewidgetitem8 = self.tableWidget_node.horizontalHeaderItem(8)
-        ___qtablewidgetitem8.setText(QCoreApplication.translate("CellulozStatic", u"Rest Y", None));
-        ___qtablewidgetitem9 = self.tableWidget_node.horizontalHeaderItem(9)
-        ___qtablewidgetitem9.setText(QCoreApplication.translate("CellulozStatic", u"Rest Z", None));
-        ___qtablewidgetitem10 = self.tableWidget_node.horizontalHeaderItem(10)
-        ___qtablewidgetitem10.setText(QCoreApplication.translate("CellulozStatic", u"Displacement X", None));
-        ___qtablewidgetitem11 = self.tableWidget_node.horizontalHeaderItem(11)
-        ___qtablewidgetitem11.setText(QCoreApplication.translate("CellulozStatic", u"Displacement Y", None));
-        ___qtablewidgetitem12 = self.tableWidget_node.horizontalHeaderItem(12)
-        ___qtablewidgetitem12.setText(QCoreApplication.translate("CellulozStatic", u"Displacement Z", None));
-        ___qtablewidgetitem13 = self.tableWidget_strut.horizontalHeaderItem(0)
-        ___qtablewidgetitem13.setText(QCoreApplication.translate("CellulozStatic", u"Name", None));
-        ___qtablewidgetitem14 = self.tableWidget_strut.horizontalHeaderItem(1)
-        ___qtablewidgetitem14.setText(QCoreApplication.translate("CellulozStatic", u"Nodes", None));
-        ___qtablewidgetitem15 = self.tableWidget_strut.horizontalHeaderItem(2)
-        ___qtablewidgetitem15.setText(QCoreApplication.translate("CellulozStatic", u"Material", None));
-        ___qtablewidgetitem16 = self.tableWidget_strut.horizontalHeaderItem(3)
-        ___qtablewidgetitem16.setText(QCoreApplication.translate("CellulozStatic", u"Section", None));
-        ___qtablewidgetitem17 = self.tableWidget_strut.horizontalHeaderItem(4)
-        ___qtablewidgetitem17.setText(QCoreApplication.translate("CellulozStatic", u"Boundary Force X", None));
-        ___qtablewidgetitem18 = self.tableWidget_strut.horizontalHeaderItem(5)
-        ___qtablewidgetitem18.setText(QCoreApplication.translate("CellulozStatic", u"Boundary Force Y", None));
-        ___qtablewidgetitem19 = self.tableWidget_strut.horizontalHeaderItem(6)
-        ___qtablewidgetitem19.setText(QCoreApplication.translate("CellulozStatic", u"Boundary Force Z", None));
-        ___qtablewidgetitem20 = self.tableWidget_strut.horizontalHeaderItem(7)
-        ___qtablewidgetitem20.setText(QCoreApplication.translate("CellulozStatic", u"Volume Force", None));
-        ___qtablewidgetitem21 = self.tableWidget_strut.horizontalHeaderItem(8)
-        ___qtablewidgetitem21.setText(QCoreApplication.translate("CellulozStatic", u"Tempreture Change", None));
-        ___qtablewidgetitem22 = self.tableWidget_material.horizontalHeaderItem(0)
-        ___qtablewidgetitem22.setText(QCoreApplication.translate("CellulozStatic", u"ID", None));
-        ___qtablewidgetitem23 = self.tableWidget_material.horizontalHeaderItem(1)
-        ___qtablewidgetitem23.setText(QCoreApplication.translate("CellulozStatic", u"Name", None));
-        ___qtablewidgetitem24 = self.tableWidget_material.horizontalHeaderItem(2)
-        ___qtablewidgetitem24.setText(QCoreApplication.translate("CellulozStatic", u"Modulus of Elasticity", None));
-        ___qtablewidgetitem25 = self.tableWidget_material.horizontalHeaderItem(3)
-        ___qtablewidgetitem25.setText(QCoreApplication.translate("CellulozStatic", u"Poisson's Ratio", None));
-        ___qtablewidgetitem26 = self.tableWidget_material.horizontalHeaderItem(4)
-        ___qtablewidgetitem26.setText(QCoreApplication.translate("CellulozStatic", u"Yield Stress", None));
-        ___qtablewidgetitem27 = self.tableWidget_material.horizontalHeaderItem(5)
-        ___qtablewidgetitem27.setText(QCoreApplication.translate("CellulozStatic", u"Ultimate Stress", None));
-        ___qtablewidgetitem28 = self.tableWidget_material.horizontalHeaderItem(6)
-        ___qtablewidgetitem28.setText(QCoreApplication.translate("CellulozStatic", u"Yield Strain", None));
-        ___qtablewidgetitem29 = self.tableWidget_material.horizontalHeaderItem(7)
-        ___qtablewidgetitem29.setText(QCoreApplication.translate("CellulozStatic", u"Ultimate Strain", None));
-        ___qtablewidgetitem30 = self.tableWidget_material.horizontalHeaderItem(8)
-        ___qtablewidgetitem30.setText(QCoreApplication.translate("CellulozStatic", u"Thermal Conductivity", None));
-        ___qtablewidgetitem31 = self.tableWidget_material.horizontalHeaderItem(9)
-        ___qtablewidgetitem31.setText(QCoreApplication.translate("CellulozStatic", u"Spesific Weight", None));
-        self.label_25.setText(QCoreApplication.translate("CellulozStatic", u"Resolution", None))
-        self.pushButton_regenerate_model.setText(QCoreApplication.translate("CellulozStatic", u"ReGenerate", None))
-        self.pushButton_save_model.setText(QCoreApplication.translate("CellulozStatic", u"Save", None))
+        self.actionSolve_Mathematical_Model.setText(QCoreApplication.translate("CellulozStatic", u"Solve Mathematical Model", None))
+        self.actionPlanar_Fixed_Support.setText(QCoreApplication.translate("CellulozStatic", u"Planar Fixed Support", None))
+        self.actionLinear_Fixed_Support.setText(QCoreApplication.translate("CellulozStatic", u"Linear Fixed Support", None))
+        self.actionLinear_Displacement.setText(QCoreApplication.translate("CellulozStatic", u"Linear Displacement", None))
+        self.actionPlanar_Displacement.setText(QCoreApplication.translate("CellulozStatic", u"Planar Displacement", None))
+        self.actionLinear_Force.setText(QCoreApplication.translate("CellulozStatic", u"Linear Force", None))
+        self.actionPlanar_Force.setText(QCoreApplication.translate("CellulozStatic", u"Planar Force", None))
+        self.actionImportMaterial.setText(QCoreApplication.translate("CellulozStatic", u"Material", None))
+        self.actionSolver_Options.setText(QCoreApplication.translate("CellulozStatic", u"Solver Options", None))
+        self.actionMaterial.setText(QCoreApplication.translate("CellulozStatic", u"Material", None))
+        self.actionSaveMaterial.setText(QCoreApplication.translate("CellulozStatic", u"Material", None))
+        self.actionVon_Misses_Stress.setText(QCoreApplication.translate("CellulozStatic", u"Von Misses Stress", None))
+        self.actionVon_Misses_Strain.setText(QCoreApplication.translate("CellulozStatic", u"Von Misses Strain", None))
+        self.actionVon_Misses_Energy.setText(QCoreApplication.translate("CellulozStatic", u"Von Misses Energy", None))
+        self.actionTotal_Displacement.setText(QCoreApplication.translate("CellulozStatic", u"Total Displacement", None))
+        self.actionX_Displacement.setText(QCoreApplication.translate("CellulozStatic", u"X Displacement", None))
+        self.actionY_Displacement.setText(QCoreApplication.translate("CellulozStatic", u"Y Displacement", None))
+        self.actionZ_Displacement.setText(QCoreApplication.translate("CellulozStatic", u"Z Displacement", None))
+        self.actionFull_Solid.setText(QCoreApplication.translate("CellulozStatic", u"Full Solid", None))
+        self.actionHalf_Transparent.setText(QCoreApplication.translate("CellulozStatic", u"Half Transparent", None))
+        self.actionTotal_Forces.setText(QCoreApplication.translate("CellulozStatic", u"Total Forces", None))
+        self.actionX_Forces.setText(QCoreApplication.translate("CellulozStatic", u"X Forces", None))
+        self.actionY_Forces.setText(QCoreApplication.translate("CellulozStatic", u"Y Forces", None))
+        self.actionZ_Forces.setText(QCoreApplication.translate("CellulozStatic", u"Z Forces", None))
+        self.actionDisplacement_Applied.setText(QCoreApplication.translate("CellulozStatic", u"Displacement Applied", None))
+        self.actionRest_Applied.setText(QCoreApplication.translate("CellulozStatic", u"Rest Applied", None))
+        self.actionForce_Applied.setText(QCoreApplication.translate("CellulozStatic", u"Force Applied", None))
+        ___qtablewidgetitem = self.tableWidget_material.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("CellulozStatic", u"ID", None));
+        ___qtablewidgetitem1 = self.tableWidget_material.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("CellulozStatic", u"Name", None));
+        ___qtablewidgetitem2 = self.tableWidget_material.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("CellulozStatic", u"Modulus of Elasticity", None));
+        ___qtablewidgetitem3 = self.tableWidget_material.horizontalHeaderItem(3)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("CellulozStatic", u"Poisson's Ratio", None));
+        ___qtablewidgetitem4 = self.tableWidget_material.horizontalHeaderItem(4)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("CellulozStatic", u"Yield Stress", None));
+        ___qtablewidgetitem5 = self.tableWidget_material.horizontalHeaderItem(5)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("CellulozStatic", u"Ultimate Stress", None));
+        ___qtablewidgetitem6 = self.tableWidget_material.horizontalHeaderItem(6)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("CellulozStatic", u"Yield Strain", None));
+        ___qtablewidgetitem7 = self.tableWidget_material.horizontalHeaderItem(7)
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("CellulozStatic", u"Ultimate Strain", None));
+        ___qtablewidgetitem8 = self.tableWidget_material.horizontalHeaderItem(8)
+        ___qtablewidgetitem8.setText(QCoreApplication.translate("CellulozStatic", u"Thermal Conductivity", None));
+        ___qtablewidgetitem9 = self.tableWidget_material.horizontalHeaderItem(9)
+        ___qtablewidgetitem9.setText(QCoreApplication.translate("CellulozStatic", u"Spesific Weight", None));
+        self.checkBox_adaptive_shine_selection_nodes.setText(QCoreApplication.translate("CellulozStatic", u"Adaptive Shine Selection Nodes", None))
+        self.label.setText(QCoreApplication.translate("CellulozStatic", u"Center Coordinate", None))
+        self.label_x.setText(QCoreApplication.translate("CellulozStatic", u"X", None))
+        self.label_3.setText(QCoreApplication.translate("CellulozStatic", u"Y", None))
+        self.label_4.setText(QCoreApplication.translate("CellulozStatic", u"Z", None))
+        self.label_8.setText(QCoreApplication.translate("CellulozStatic", u"Volumetric Choosing", None))
+        self.label_5.setText(QCoreApplication.translate("CellulozStatic", u"X", None))
+        self.label_7.setText(QCoreApplication.translate("CellulozStatic", u"Y", None))
+        self.label_6.setText(QCoreApplication.translate("CellulozStatic", u"Z", None))
+        self.comboBox_bc_type.setItemText(0, QCoreApplication.translate("CellulozStatic", u"Rest", None))
+        self.comboBox_bc_type.setItemText(1, QCoreApplication.translate("CellulozStatic", u"Displacement", None))
+        self.comboBox_bc_type.setItemText(2, QCoreApplication.translate("CellulozStatic", u"Force", None))
+
+        self.checkBox_bc_add_x.setText(QCoreApplication.translate("CellulozStatic", u"X", None))
+        self.checkBox_bc_add_y.setText(QCoreApplication.translate("CellulozStatic", u"Y", None))
+        self.checkBox_bc_add_z.setText(QCoreApplication.translate("CellulozStatic", u"Z", None))
+        self.lineEdit_value_x.setText(QCoreApplication.translate("CellulozStatic", u"0", None))
+        self.lineEdit_value_y.setText(QCoreApplication.translate("CellulozStatic", u"0", None))
+        self.lineEdit_value_z.setText(QCoreApplication.translate("CellulozStatic", u"0", None))
+        self.pushButton_bc_check.setText(QCoreApplication.translate("CellulozStatic", u"Check", None))
+        self.pushButton_bc_add.setText(QCoreApplication.translate("CellulozStatic", u"Add", None))
+        self.pushButton_bc_clear.setText(QCoreApplication.translate("CellulozStatic", u"Clear", None))
         self.menuFile.setTitle(QCoreApplication.translate("CellulozStatic", u"File", None))
         self.menuSave.setTitle(QCoreApplication.translate("CellulozStatic", u"Save", None))
         self.menuLattice_Model.setTitle(QCoreApplication.translate("CellulozStatic", u"Static Model", None))
         self.menuImport.setTitle(QCoreApplication.translate("CellulozStatic", u"Import", None))
         self.menuModules.setTitle(QCoreApplication.translate("CellulozStatic", u"Modules", None))
-        self.menuAdd_Structure.setTitle(QCoreApplication.translate("CellulozStatic", u"Add Structure", None))
+        self.menuAdd_Boundary_Conditions.setTitle(QCoreApplication.translate("CellulozStatic", u"Add Boundary Conditions", None))
+        self.menuDisplacement.setTitle(QCoreApplication.translate("CellulozStatic", u"Displacement", None))
+        self.menuFixed_Support.setTitle(QCoreApplication.translate("CellulozStatic", u"Fixed Support", None))
+        self.menuForce.setTitle(QCoreApplication.translate("CellulozStatic", u"Force", None))
+        self.menuSolver.setTitle(QCoreApplication.translate("CellulozStatic", u"Solver", None))
         self.menuView.setTitle(QCoreApplication.translate("CellulozStatic", u"View", None))
         self.menuView_Angle.setTitle(QCoreApplication.translate("CellulozStatic", u"View Angle", None))
+        self.menuProperties.setTitle(QCoreApplication.translate("CellulozStatic", u"Properties", None))
+        self.menuElement_Properties.setTitle(QCoreApplication.translate("CellulozStatic", u"Element Properties", None))
+        self.menuNode_Displacements.setTitle(QCoreApplication.translate("CellulozStatic", u"Node Displacements", None))
+        self.menuNode_Forces.setTitle(QCoreApplication.translate("CellulozStatic", u"Node Forces", None))
+        self.menuNode_Boundary_Conditions.setTitle(QCoreApplication.translate("CellulozStatic", u"Node Boundary Conditions", None))
+        self.menuSolid_View.setTitle(QCoreApplication.translate("CellulozStatic", u"Solid View", None))
+        self.menuOptions.setTitle(QCoreApplication.translate("CellulozStatic", u"Options", None))
     # retranslateUi
 
