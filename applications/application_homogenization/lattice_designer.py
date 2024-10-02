@@ -1,4 +1,6 @@
 import os
+import sys
+
 from PySide6.QtWidgets import (QFileDialog,
                                QTableWidgetItem)
 
@@ -62,7 +64,8 @@ class LatticeDesigner(object):
         self.__lattice_model[self.__active_model_index].set_geometry_size((x_size, y_size, z_size))
         self.__lattice_model[self.__active_model_index].set_resolution(resolution)
         self.__lattice_model[self.__active_model_index].generate_voxel()
-        print(self.__lattice_model[self.__active_model_index].volume_fraction)
+        sys.stdout.write(
+            f"Volume Fraction of Model: {self.__lattice_model[self.__active_model_index].volume_fraction}\n")
         self.__function_communication.graph_functions.show_mesh()
 
     def change_active_model_index(self):
