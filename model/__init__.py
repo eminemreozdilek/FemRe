@@ -11,7 +11,7 @@ from model.material import BaseMaterial
 from model.elements import *
 from model.data_class import *
 from solver.linear_solver import solve_model
-from solver.result_editor import *
+from solver.linear_solver import *
 
 
 class Model:
@@ -48,13 +48,13 @@ class Model:
             material=material,
         )
         self.components.append(component)
-        self._register_component_nodes(component)
-        self._register_component_elements(component)
+        self.__register_component_nodes(component)
+        self.__register_component_elements(component)
         return component
 
-    def _register_component_nodes(self,
-                                  component: ComponentData
-                                  ) -> None:
+    def __register_component_nodes(self,
+                                   component: ComponentData
+                                   ) -> None:
         mesh = component.mesh
         number_of_points = mesh.n_points
         local_point_indices = np.arange(number_of_points, dtype=int)
@@ -74,10 +74,10 @@ class Model:
         mesh.point_data["global_node_id"] = global_node_ids
         self.next_node_id += number_of_points
 
-    def _element_class_from_cell_type(self,
-                                      cell_type: int,
-                                      number_of_nodes: int,
-                                      ) -> Optional[Type[FiniteElement]]:
+    def __element_class_from_cell_type(self,
+                                       cell_type: int,
+                                       number_of_nodes: int,
+                                       ) -> Optional[Type[FiniteElement]]:
         if cell_type == CellType.TETRA:
             if number_of_nodes != 4:
                 raise ValueError("tetrahedral cell with incorrect node count")
@@ -96,9 +96,9 @@ class Model:
             return SecondOrderHexahedralElement
         return None
 
-    def _cell_spatial_dimension(self,
-                                cell_type: int
-                                ) -> int:
+    def __cell_spatial_dimension(self,
+                                 cell_type: int
+                                 ) -> int:
         if cell_type in (
                 CellType.TETRA,
                 CellType.QUADRATIC_TETRA,
@@ -116,9 +116,9 @@ class Model:
             return 1
         return 0
 
-    def _register_component_elements(self,
-                                     component: ComponentData
-                                     ) -> None:
+    def __register_component_elements(self,
+                                      component: ComponentData
+                                      ) -> None:
         mesh = component.mesh
         cells = mesh.cells
         celltypes = mesh.celltypes
@@ -131,11 +131,11 @@ class Model:
             number_of_nodes = int(cells[pointer])
             connectivity = cells[pointer + 1: pointer + 1 + number_of_nodes]
             pointer += 1 + number_of_nodes
-            element_class = self._element_class_from_cell_type(
+            element_class = self.__element_class_from_cell_type(
                 cell_type=int(cell_type),
                 number_of_nodes=number_of_nodes,
             )
-            spatial_dimension = self._cell_spatial_dimension(int(cell_type))
+            spatial_dimension = self.__cell_spatial_dimension(int(cell_type))
             if element_class is None or spatial_dimension != 3:
                 continue
             element_node_ids = global_node_ids[connectivity]
@@ -331,7 +331,7 @@ class Model:
             force_vector[base_index: base_index + 3] = node.external_force
         return force_vector
 
-    def _node_dof_index(self, node_id: int, component_index: int) -> int:
+    def __node_dof_index(self, node_id: int, component_index: int) -> int:
         return 3 * (node_id - 1) + component_index
 
     def build_dof_mapping_with_contacts(self) -> np.ndarray:
@@ -357,8 +357,8 @@ class Model:
                     constraint_set.contact_constraint_array, ):
                 for component_index in range(3):
                     if int(constraint_row[component_index]) != 0:
-                        dof_parent = self._node_dof_index(int(parent_node_id), component_index)
-                        dof_child = self._node_dof_index(int(child_node_id), component_index)
+                        dof_parent = self.__node_dof_index(int(parent_node_id), component_index)
+                        dof_child = self.__node_dof_index(int(child_node_id), component_index)
                         union_indices(dof_parent, dof_child)
 
         root_indices = np.array([find_root(i) for i in range(number_of_dofs)], dtype=int)
