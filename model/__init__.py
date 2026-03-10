@@ -33,20 +33,100 @@ class Model:
     def number_of_elements(self) -> int:
         return len(self.elements_by_id)
 
+    @staticmethod
+    def __remove_unconnected_points(
+            mesh: pv.UnstructuredGrid,
+    ) -> pv.UnstructuredGrid:
+        """
+        Return a new UnstructuredGrid where points not referenced by any cell
+        are removed and connectivity is reindexed.
+
+        This is safer than relying on plotting-side cleanup because the global
+        node/element registration must only see actually used nodes.
+        """
+        if mesh.n_cells == 0:
+            raise ValueError("Mesh has no cells.")
+
+        original_points = np.asarray(mesh.points)
+        if original_points.shape[0] == 0:
+            raise ValueError("Mesh has no points.")
+
+        # PyVista/VTK stores cells as:
+        # [n0, p0_1, p0_2, ..., n1, p1_1, p1_2, ...]
+        cell_array = np.asarray(mesh.cells)
+        cell_types = np.asarray(mesh.celltypes)
+        offset = np.asarray(mesh.offset)
+
+        used_point_ids = []
+        i = 0
+        while i < len(cell_array):
+            npts = int(cell_array[i])
+            conn = cell_array[i + 1:i + 1 + npts]
+            used_point_ids.append(conn)
+            i += npts + 1
+
+        used_point_ids = np.unique(np.concatenate(used_point_ids))
+
+        # If nothing to remove, still return a deep copy for safety
+        if used_point_ids.size == mesh.n_points:
+            return mesh.copy(deep=True)
+
+        # Old point id -> new point id
+        new_id_from_old = -np.ones(mesh.n_points, dtype=int)
+        new_id_from_old[used_point_ids] = np.arange(used_point_ids.size, dtype=int)
+
+        new_points = original_points[used_point_ids]
+
+        # Rebuild flattened VTK cell array with remapped node ids
+        new_cells_list = []
+        i = 0
+        while i < len(cell_array):
+            npts = int(cell_array[i])
+            conn = cell_array[i + 1:i + 1 + npts]
+            new_conn = new_id_from_old[conn]
+
+            if np.any(new_conn < 0):
+                raise RuntimeError("Connectivity remap failed while removing unused points.")
+
+            new_cells_list.append(np.concatenate(([npts], new_conn)))
+            i += npts + 1
+
+        new_cells = np.concatenate(new_cells_list).astype(np.int64)
+
+        cleaned_mesh = pv.UnstructuredGrid(offset, new_cells, cell_types, new_points)
+
+        # Preserve point_data for used points only
+        for key in mesh.point_data.keys():
+            arr = np.asarray(mesh.point_data[key])
+            if arr.shape[0] == mesh.n_points:
+                cleaned_mesh.point_data[key] = arr[used_point_ids]
+
+        # Preserve cell_data as-is
+        for key in mesh.cell_data.keys():
+            arr = np.asarray(mesh.cell_data[key])
+            if arr.shape[0] == mesh.n_cells:
+                cleaned_mesh.cell_data[key] = arr.copy()
+
+        return cleaned_mesh
+
     def add_component(
             self,
             mesh: pv.UnstructuredGrid,
             material: BaseMaterial,
             name: Optional[str] = None,
     ) -> ComponentData:
+        cleaned_mesh = self.__remove_unconnected_points(mesh)
+
         component_id = len(self.components) + 1
         component_name = name if name is not None else f"component_{component_id}"
+
         component = ComponentData(
             component_id=component_id,
             name=component_name,
-            mesh=mesh,
+            mesh=cleaned_mesh,
             material=material,
         )
+
         self.components.append(component)
         self.__register_component_nodes(component)
         self.__register_component_elements(component)

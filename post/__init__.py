@@ -20,20 +20,13 @@ from dataclasses import dataclass
 from typing import Dict, Iterable, Literal, Optional, Sequence, Tuple, Union
 
 import numpy as np
-
-
-# -----------------------------
-# Basics / helpers
-# -----------------------------
-
-Voigt6 = np.ndarray
-ArrayLike = Union[np.ndarray, Sequence[float]]
+import pyvista as pv
+import matplotlib.pyplot as plt
 
 REDUCE = Literal["mean", "max", "min", "absmax", "gp0"]
 
 
 def element_dof_ids(node_ids: np.ndarray) -> np.ndarray:
-    """Map element node ids -> global dof ids for 3D (ux,uy,uz) per node."""
     node_ids = np.asarray(node_ids, dtype=np.int64)
     base = 3 * (node_ids - 1)
     return (base[:, None] + np.array([0, 1, 2], dtype=np.int64)[None, :]).ravel()
@@ -57,9 +50,6 @@ def _ensure_u(model, u: Optional[np.ndarray]) -> np.ndarray:
 
 
 def _reduce_gauss(arr: np.ndarray, how: REDUCE) -> np.ndarray:
-    """
-    Reduce a (n_elem, n_gp, ...) array to (n_elem, ...) according to `how`.
-    """
     if arr.ndim < 2:
         raise ValueError("Expected gauss array with shape (n_elem, n_gp, ...)")
     if how == "mean":
@@ -78,12 +68,7 @@ def _reduce_gauss(arr: np.ndarray, how: REDUCE) -> np.ndarray:
     raise ValueError(f"Unknown reduction: {how}")
 
 
-# -----------------------------
-# Voigt <-> tensor & invariants
-# -----------------------------
-
 def voigt_stress_to_tensor(sig6: np.ndarray) -> np.ndarray:
-    """[xx,yy,zz,xy,yz,xz] -> symmetric 3x3 stress tensor."""
     s = np.asarray(sig6, dtype=float)
     t = np.zeros(s.shape[:-1] + (3, 3), dtype=float)
     t[..., 0, 0] = s[..., 0]
@@ -124,32 +109,17 @@ def von_mises_stress(sig6: np.ndarray) -> np.ndarray:
 
 
 def principal_values_sym33(t: np.ndarray) -> np.ndarray:
-    """Eigenvalues of symmetric 3x3 tensors, returned as (s1>=s2>=s3)."""
     vals = np.linalg.eigvalsh(t)
     return vals[..., ::-1]
 
 
 def strain_energy_density(sig6: np.ndarray, eps6: np.ndarray) -> np.ndarray:
-    """
-    Energy density w = 0.5 * sigma : epsilon
-
-    Assumes eps6 shear components are engineering shear strains.
-    With that convention, w = 0.5*(sx*ex + sy*ey + sz*ez + txy*gxy + tyz*gyz + txz*gxz).
-    """
     s = np.asarray(sig6, dtype=float)
     e = np.asarray(eps6, dtype=float)
     return 0.5 * np.sum(s * e, axis=-1)
 
 
-# -----------------------------
-# Element Gauss results (strain, stress, yielded)
-# -----------------------------
-
 def bilinear_von_mises_stress(material, von_mises_strain: np.ndarray) -> np.ndarray:
-    """
-    Simple bilinear mapping: sigma_vm = E*eps_vm (elastic) then Et*(eps_vm-eps_y) + sigma_y (plastic)
-    Used by your existing code path.
-    """
     von_mises_strain = np.asarray(von_mises_strain, dtype=float)
     yield_strain = material.yield_strength / material.youngs_modulus
     elastic_part = np.minimum(von_mises_strain, yield_strain)
@@ -158,10 +128,6 @@ def bilinear_von_mises_stress(material, von_mises_strain: np.ndarray) -> np.ndar
 
 
 def _von_mises_strain_fallback(eps6: np.ndarray) -> np.ndarray:
-    """
-    Fallback von-Mises-like strain (from strain tensor deviatoric invariant).
-    This is only used if your FiniteElement doesn't implement von_mises_strain().
-    """
     E = voigt_strain_to_tensor(eps6, engineering_shear=True)
     tr = np.trace(E, axis1=-2, axis2=-1) / 3.0
     dev = E.copy()
@@ -173,13 +139,8 @@ def _von_mises_strain_fallback(eps6: np.ndarray) -> np.ndarray:
     return np.sqrt(2.0 / 3.0) * np.sqrt(2.0 * j2)
 
 
-def element_gauss_strain_stress_yield(finite_element, u_element: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Returns:
-      strains_gp: (n_gp, 6)
-      stresses_gp: (n_gp, 6)
-      yielded_gp: (n_gp,)
-    """
+def element_gauss_strain_stress_yield(finite_element, u_element: np.ndarray) -> Tuple[
+    np.ndarray, np.ndarray, np.ndarray]:
     B_list = finite_element.B_matrices()
     strains = np.vstack([np.asarray(B, dtype=float) @ u_element for B in B_list])  # (n_gp, 6)
 
@@ -249,10 +210,6 @@ def model_element_fields(model, u: np.ndarray) -> Tuple[np.ndarray, np.ndarray, 
     return element_ids, strains, stresses, yielded
 
 
-# -----------------------------
-# Nodal results
-# -----------------------------
-
 def nodal_displacements(model, u: Optional[np.ndarray] = None) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Returns:
@@ -281,19 +238,12 @@ def _prescribed_dof_mask(model) -> np.ndarray:
 
 
 def nodal_reaction_forces(
-    model,
-    u: Optional[np.ndarray] = None,
-    *,
-    return_full_vector: bool = False,
+        model,
+        u: Optional[np.ndarray] = None,
+        *,
+        return_full_vector: bool = False,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Reaction forces from residual: r = K*u - f_ext
 
-    Returns:
-      node_ids: (n_nodes,)
-      R: (n_nodes, 3)   (reactions at prescribed DOFs; zeros elsewhere unless return_full_vector=True)
-      R_mag: (n_nodes,)
-    """
     u = _ensure_u(model, u)
     K = model.build_global_stiffness_matrix()
     f_ext = model.build_global_force_vector()
@@ -310,16 +260,12 @@ def nodal_reaction_forces(
     return node_ids, R, R_mag
 
 
-# -----------------------------
-# Element results (reduced + invariants)
-# -----------------------------
-
 @dataclass(frozen=True)
 class ElementGaussResults:
     element_ids: np.ndarray  # (n_elem,)
-    strain_gp: np.ndarray    # (n_elem, n_gp, 6)
-    stress_gp: np.ndarray    # (n_elem, n_gp, 6)
-    yielded_gp: np.ndarray   # (n_elem, n_gp)
+    strain_gp: np.ndarray  # (n_elem, n_gp, 6)
+    stress_gp: np.ndarray  # (n_elem, n_gp, 6)
+    yielded_gp: np.ndarray  # (n_elem, n_gp)
 
 
 def element_gauss_results(model, u: Optional[np.ndarray] = None) -> ElementGaussResults:
@@ -328,14 +274,8 @@ def element_gauss_results(model, u: Optional[np.ndarray] = None) -> ElementGauss
     return ElementGaussResults(element_ids=element_ids, strain_gp=eps, stress_gp=sig, yielded_gp=yld)
 
 
-def element_reduced_results(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean") -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Returns per-element (reduced from Gauss points):
-      element_ids: (n_elem,)
-      strain_e: (n_elem, 6)
-      stress_e: (n_elem, 6)
-      yielded_e: (n_elem,)  (any gauss point yielded)
-    """
+def element_reduced_results(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean") -> Tuple[
+    np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     g = element_gauss_results(model, u)
     strain_e = _reduce_gauss(g.strain_gp, reduce)
     stress_e = _reduce_gauss(g.stress_gp, reduce)
@@ -343,22 +283,25 @@ def element_reduced_results(model, u: Optional[np.ndarray] = None, *, reduce: RE
     return g.element_ids, strain_e, stress_e, yielded_e
 
 
-def element_von_mises(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean") -> Tuple[np.ndarray, np.ndarray]:
+def element_von_mises(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean") -> Tuple[
+    np.ndarray, np.ndarray]:
     g = element_gauss_results(model, u)
     vm_gp = von_mises_stress(g.stress_gp)  # (n_elem, n_gp)
     vm_e = _reduce_gauss(vm_gp, reduce)
     return g.element_ids, vm_e
 
 
-def element_principal_stresses(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean") -> Tuple[np.ndarray, np.ndarray]:
+def element_principal_stresses(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean") -> Tuple[
+    np.ndarray, np.ndarray]:
     g = element_gauss_results(model, u)
     t_gp = voigt_stress_to_tensor(g.stress_gp)  # (n_elem, n_gp, 3, 3)
-    p_gp = principal_values_sym33(t_gp)         # (n_elem, n_gp, 3)
-    p_e = _reduce_gauss(p_gp, reduce)           # (n_elem, 3)
+    p_gp = principal_values_sym33(t_gp)  # (n_elem, n_gp, 3)
+    p_e = _reduce_gauss(p_gp, reduce)  # (n_elem, 3)
     return g.element_ids, p_e
 
 
-def element_principal_strains(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean") -> Tuple[np.ndarray, np.ndarray]:
+def element_principal_strains(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean") -> Tuple[
+    np.ndarray, np.ndarray]:
     g = element_gauss_results(model, u)
     t_gp = voigt_strain_to_tensor(g.strain_gp, engineering_shear=True)
     p_gp = principal_values_sym33(t_gp)
@@ -366,34 +309,19 @@ def element_principal_strains(model, u: Optional[np.ndarray] = None, *, reduce: 
     return g.element_ids, p_e
 
 
-def element_strain_energy(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean") -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """
-    Returns:
-      element_ids: (n_elem,)
-      w_density: (n_elem,)  (reduced energy density)
-      w_element: (n_elem,)  (energy density * element volume; volume estimated from PyVista)
-    """
+def element_strain_energy(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean") -> Tuple[
+    np.ndarray, np.ndarray, np.ndarray]:
+
     g = element_gauss_results(model, u)
     w_gp = strain_energy_density(g.stress_gp, g.strain_gp)  # (n_elem, n_gp)
-    w_e = _reduce_gauss(w_gp, reduce)                       # (n_elem,)
+    w_e = _reduce_gauss(w_gp, reduce)  # (n_elem,)
 
     volumes = estimate_element_volumes_from_components(model)  # dict element_id -> volume
     w_elem = np.array([w_e[i] * volumes.get(int(eid), np.nan) for i, eid in enumerate(g.element_ids)], dtype=float)
     return g.element_ids, w_e, w_elem
 
 
-# -----------------------------
-# Mapping results to component meshes
-# -----------------------------
-
 def estimate_element_volumes_from_components(model) -> Dict[int, float]:
-    """
-    Uses each component mesh's cell volumes (PyVista compute_cell_sizes) and maps by global_element_id.
-
-    Requires Model._register_component_elements to have set mesh.cell_data["global_element_id"].
-    """
-    import pyvista as pv  # local import to keep non-plot usage light
-
     out: Dict[int, float] = {}
     for comp in model.components:
         mesh = comp.mesh
@@ -416,7 +344,6 @@ def attach_point_data_by_node_id(model, name: str, values_by_node: np.ndarray) -
     Attach point data to each component mesh using mesh.point_data["global_node_id"] mapping.
     """
     values_by_node = np.asarray(values_by_node)
-    # allow (n_nodes,) or (n_nodes, k)
     for comp in model.components:
         mesh = comp.mesh
         if "global_node_id" not in mesh.point_data:
@@ -425,7 +352,8 @@ def attach_point_data_by_node_id(model, name: str, values_by_node: np.ndarray) -
         mesh.point_data[name] = values_by_node[gids - 1]
 
 
-def attach_cell_data_by_element_id(model, name: str, values_by_element_id: Dict[int, ArrayLike], fill_value=np.nan) -> None:
+def attach_cell_data_by_element_id(model, name: str, values_by_element_id: Dict[int, Sequence[float]],
+                                   fill_value=np.nan) -> None:
     """
     Attach cell data to each component mesh using mesh.cell_data["global_element_id"] mapping.
     values_by_element_id: dict {element_id: scalar or vector}
@@ -473,35 +401,38 @@ def attach_nodal_displacements(model, u: Optional[np.ndarray] = None, *, prefix:
     attach_point_data_by_node_id(model, f"{prefix}_mag", U_mag)
 
 
-def attach_nodal_reactions(model, u: Optional[np.ndarray] = None, *, prefix: str = "R", full_vector: bool = False) -> None:
+def attach_nodal_reactions(model, u: Optional[np.ndarray] = None, *, prefix: str = "R",
+                           full_vector: bool = False) -> None:
     node_ids, R, R_mag = nodal_reaction_forces(model, u, return_full_vector=full_vector)
     attach_point_data_by_node_id(model, prefix, R)
     attach_point_data_by_node_id(model, f"{prefix}_mag", R_mag)
 
 
-def attach_element_stress_strain(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean", prefix_stress: str = "S", prefix_strain: str = "E") -> None:
+def attach_element_stress_strain(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean",
+                                 prefix_stress: str = "S", prefix_strain: str = "E") -> None:
     eids, eps_e, sig_e, yld = element_reduced_results(model, u, reduce=reduce)
     attach_cell_data_by_element_id(model, prefix_strain, _dict_from_ids_values(eids, eps_e))
     attach_cell_data_by_element_id(model, prefix_stress, _dict_from_ids_values(eids, sig_e))
     attach_cell_data_by_element_id(model, "yielded", _dict_from_ids_values(eids, yld.astype(float)))
 
 
-def attach_element_von_mises(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean", name: str = "S_vm") -> None:
+def attach_element_von_mises(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean",
+                             name: str = "S_vm") -> None:
     eids, vm = element_von_mises(model, u, reduce=reduce)
     attach_cell_data_by_element_id(model, name, _dict_from_ids_values(eids, vm))
 
 
-def attach_element_principal_stresses(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean", name: str = "S_principal") -> None:
+def attach_element_principal_stresses(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean",
+                                      name: str = "S_principal") -> None:
     eids, ps = element_principal_stresses(model, u, reduce=reduce)
     attach_cell_data_by_element_id(model, name, _dict_from_ids_values(eids, ps))
 
 
-def attach_element_strain_energy(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean", name_density: str = "W_density", name_total: str = "W_element") -> None:
+def attach_element_strain_energy(model, u: Optional[np.ndarray] = None, *, reduce: REDUCE = "mean",
+                                 name_density: str = "W_density", name_total: str = "W_element") -> None:
     eids, w_den, w_elem = element_strain_energy(model, u, reduce=reduce)
     attach_cell_data_by_element_id(model, name_density, _dict_from_ids_values(eids, w_den))
     attach_cell_data_by_element_id(model, name_total, _dict_from_ids_values(eids, w_elem))
-
-
 
 
 # -----------------------------
@@ -551,82 +482,96 @@ def attach_nodal_vector_components(model, base_name: str, *, prefix: Optional[st
         mesh.point_data[f"{out_prefix}_y"] = V[:, 1]
         mesh.point_data[f"{out_prefix}_z"] = V[:, 2]
 
-
-# -----------------------------
-# Plotting (PyVista)
-# -----------------------------
-
 def plot_on_components(
-    model,
-    *,
-    scalars: Optional[str] = None,
-    vectors: Optional[str] = None,
-    association: Literal["point", "cell"] = "cell",
-
-    # Deformation / warping (visualization only)
-    # Backward compatible: if you already pass warp_by/warp_factor, it still works.
-    deformation_scale: Optional[float] = None,
-    deformation_field: str = "U",
-    warp_by: Optional[str] = None,
-    warp_factor: float = 1.0,
-
-    component_ids: Optional[Sequence[int]] = None,
-    show_edges: bool = False,
+        model,
+        *,
+        scalars: Optional[str] = None,
+        vectors: Optional[str] = None,
+        association: Literal["point", "cell"] = "cell",
+        deformation_scale: Optional[float] = None,
+        deformation_field: str = "U",
+        warp_by: Optional[str] = None,
+        warp_factor: float = 1.0,
+        component_ids: Optional[Sequence[int]] = None,
+        show_edges: bool = False,
 ):
-    """
-    Generic plotter:
-      - scalars: name in point_data or cell_data (according to association)
-      - vectors: optional vector field name for glyphing (point_data)
-      - warp_by: vector field name (point_data) to warp geometry (typical: "U")
-    """
-    import pyvista as pv  # local import
-
     pl = pv.Plotter()
     comps = model.components
+
     if component_ids is not None:
         component_ids = set(int(c) for c in component_ids)
         comps = [c for c in comps if int(c.component_id) in component_ids]
 
+    if deformation_scale is not None:
+        warp_by = deformation_field
+        warp_factor = float(deformation_scale)
+
     for comp in comps:
-        if deformation_scale is not None:
-            warp_by = deformation_field
-            warp_factor = float(deformation_scale)
+        mesh = comp.mesh
 
-            mesh = comp.mesh
-            m = mesh.copy(deep=True)
+        # IMPORTANT: linearize for visualization
+        m = mesh.linear_copy()
 
-            if warp_by is not None:
-                if warp_by not in m.point_data:
-                    raise KeyError(f"warp_by='{warp_by}' not found in point_data of component {comp.component_id}")
-                m = m.warp_by_vector(warp_by, factor=float(warp_factor))
+        # carry over point/cell arrays if needed
+        for key in mesh.point_data.keys():
+            if key not in m.point_data and mesh.point_data[key].shape[0] == mesh.n_points:
+                # for linear_copy this usually should already exist, but keep safe
+                pass
 
-            kwargs = {"show_edges": bool(show_edges)}
-            if scalars is not None:
-                kwargs["scalars"] = scalars
+        for key in mesh.cell_data.keys():
+            if key not in m.cell_data and mesh.cell_data[key].shape[0] == mesh.n_cells:
+                m.cell_data[key] = np.asarray(mesh.cell_data[key]).copy()
 
-            pl.add_mesh(m, **kwargs)
+        if warp_by is not None:
+            if warp_by not in m.point_data:
+                raise KeyError(
+                    f"warp_by='{warp_by}' not found in point_data of component {comp.component_id}"
+                )
+            m = m.warp_by_vector(warp_by, factor=float(warp_factor))
 
-            if vectors is not None:
-                if vectors not in m.point_data:
-                    raise KeyError(f"vectors='{vectors}' not found in point_data of component {comp.component_id}")
-                glyphs = m.glyph(orient=vectors, scale=False, factor=1.0)
-                pl.add_mesh(glyphs)
+        kwargs = {"show_edges": bool(show_edges)}
+
+        if scalars is not None:
+            if association == "point":
+                if scalars not in m.point_data:
+                    raise KeyError(
+                        f"scalars='{scalars}' not found in point_data of component {comp.component_id}"
+                    )
+            elif association == "cell":
+                if scalars not in m.cell_data:
+                    raise KeyError(
+                        f"scalars='{scalars}' not found in cell_data of component {comp.component_id}"
+                    )
+            else:
+                raise ValueError("association must be 'point' or 'cell'")
+
+            kwargs["scalars"] = scalars
+
+        pl.add_mesh(m, **kwargs)
+
+        if vectors is not None:
+            if vectors not in m.point_data:
+                raise KeyError(
+                    f"vectors='{vectors}' not found in point_data of component {comp.component_id}"
+                )
+            glyphs = m.glyph(orient=vectors, scale=False, factor=1.0)
+            pl.add_mesh(glyphs)
 
     pl.show()
     return pl
 
 
 def compute_and_plot(
-    model,
-    field: str,
-    *,
-    reduce: REDUCE = "mean",
+        model,
+        field: str,
+        *,
+        reduce: REDUCE = "mean",
 
-    # Visualization deformation scale (alias of warp_factor)
-    deformation_scale: Optional[float] = None,
-    warp_factor: float = 1.0,
+        # Visualization deformation scale (alias of warp_factor)
+        deformation_scale: Optional[float] = None,
+        warp_factor: float = 1.0,
 
-    show_edges: bool = False,
+        show_edges: bool = False,
 ):
     """
     Convenience: compute common fields, attach to meshes, plot.
@@ -650,7 +595,8 @@ def compute_and_plot(
             attach_element_stress_strain(model, reduce=reduce, prefix_stress="S", prefix_strain="E")
             attach_element_voigt_components(model, base)
             assoc = "cell"
-            return plot_on_components(model, scalars=field, association=assoc, warp_by="U", warp_factor=warp_factor, show_edges=show_edges)
+            return plot_on_components(model, scalars=field, association=assoc, warp_by="U", warp_factor=warp_factor,
+                                      show_edges=show_edges)
         if base in ("U", "R"):
             if base == "U":
                 attach_nodal_displacements(model, prefix="U")
@@ -658,7 +604,8 @@ def compute_and_plot(
                 attach_nodal_reactions(model, prefix="R")
             attach_nodal_vector_components(model, base)
             assoc = "point"
-            return plot_on_components(model, scalars=field, association=assoc, warp_by="U", warp_factor=warp_factor, show_edges=show_edges)
+            return plot_on_components(model, scalars=field, association=assoc, warp_by="U", warp_factor=warp_factor,
+                                      show_edges=show_edges)
 
     # Field-specific attach
     if field in ("R", "R_mag"):
