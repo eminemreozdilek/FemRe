@@ -9,8 +9,8 @@ import post
 
 
 def create_i_beam() -> pv.UnstructuredGrid:
-    Lx, Ly, Lz = 3000, 200, 600
-    Nx, Ny, Nz = 30, 2, 6
+    Lx, Ly, Lz = 45, 15, 15
+    Nx, Ny, Nz = 45, 15, 15
 
     # Point coordinates (structured layout, but we'll build an UnstructuredGrid)
     x = np.linspace(0.0, Lx, Nx + 1)
@@ -58,60 +58,34 @@ def copy_and_translate_mesh(mesh: pv.UnstructuredGrid, translation_vector: np.nd
 
 
 if __name__ == "__main__":
-    total_force = 60000
+    total_force = 1000
 
     beam_1 = create_i_beam()
-    beam_2 = copy_and_translate_mesh(beam_1, np.array([3000.0, 0.0, 0.0]))
+    # beam_2 = copy_and_translate_mesh(beam_1, np.array([45.0, 0.0, 0.0]))
 
     steel = BaseMaterial(
         material_id=1,
-        youngs_modulus=210e3,
-        poissons_ratio=0.3,
-        yield_strength=225,
-        tangent_modulus=2.0e3, )
+        youngs_modulus=200000,
+        poissons_ratio=0.3,)
 
     model = Model()
     component_1 = model.add_component(beam_1, steel, name="beam_1")
-    component_2 = model.add_component(beam_2, steel, name="beam_2")
-    contact_data = model.auto_create_rigid_contacts_between_components(
-        parent_component_id=component_1.component_id,
-        child_component_id=component_2.component_id,
-        tolerance=1e-3, )
+    # component_2 = model.add_component(beam_2, steel, name="beam_2")
+    # contact_data = model.auto_create_rigid_contacts_between_components(
+    #     parent_component_id=component_1.component_id,
+    #     child_component_id=component_2.component_id,
+    #     tolerance=1e-3, )
 
     fixed_nodes = model.select_nodes_by_coordinates(x=(0.0, 0.0))
     model.set_nodal_displacement(fixed_nodes, ux=0.0, uy=0.0, uz=0.0)
-    fixed_nodes = model.select_nodes_by_coordinates(x=(6000.0, 6000.0))
-    model.set_nodal_displacement(fixed_nodes, ux=0.0, uy=0.0, uz=0.0)
+    fixed_nodes = model.select_nodes_by_coordinates(x=(45.0, 45.0))
+    model.set_nodal_displacement(fixed_nodes, ux=0.0)
 
-    loaded_nodes = model.select_nodes_by_coordinates(z=(600.0, 600.0))
+    loaded_nodes = model.select_nodes_by_coordinates(y=(15.0,15.0))
     force = - total_force / loaded_nodes.size
-    model.add_nodal_force(loaded_nodes, fz=force)
+    model.add_nodal_force(loaded_nodes, fy=force)
 
     results = model.solve_linear()
-    post.attach_nodal_displacements(model)  # "U", "U_mag"
-
-    # Reactions at supports
-    post.attach_nodal_reactions(model)  # "R", "R_mag"
-
-    # Element stresses/strains (cell results)
-    post.attach_element_stress_strain(model)  # "S", "E", "yielded"
-    post.attach_element_voigt_components(model, "S")  # "S_xx", "S_yy", ..., "S_xz"
-
-    # Von Mises as a single scalar per element
-    post.attach_element_von_mises(model)  # "S_vm"
-
-    # Plot von Mises on the deformed shape
-    post.plot_on_components(
-        model,
-        scalars="S_vm",
-        association="cell",
-        warp_by="U",
-        warp_factor=50.0,
-        show_edges=False,
-    )
-
-    # Plot σxx directly (thanks to the split helper)
-    post.plot_on_components(model, scalars="S_xx", association="cell", warp_by="U", warp_factor=50.0)
-
-    # Or the one-liner:
-    post.compute_and_plot(model, "S_xx", warp_factor=50.0)
+    post_proc = post.PostProcessor(model, deformation_factor=1.0)
+    mesh = post_proc.mesh
+    mesh.save("macro_result.vtu")

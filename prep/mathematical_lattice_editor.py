@@ -200,61 +200,34 @@ def extract_volumetric_lattice_mesh(
     return mesh
 
 
-def generate_voxel_mesh(
-        total_structure_size: tuple[float, float, float],
-        unit_cell_size: float,
-        formula_str: str,
-        thickness: float,
-        resolution: int,
-        network_phase: bool = False,
-) -> pv.UnstructuredGrid:
-    Lx, Ly, Lz = map(float, total_structure_size)
-    hx = hy = hz = unit_cell_size / float(resolution)
+def generate_voxel_mesh(voxel_array: np.ndarray, repeats=(1,1,1), scale=1.0):
+    nx, ny, nz = voxel_array.shape
+    grid = pv.ImageData(dimensions=(nx + 1, ny + 1, nz + 1))
+    grid.cell_data["active_voxels"] = voxel_array.flatten(order="F")
+    hex_mesh = grid.threshold([0.9, 1.1])
+    hex_mesh.clear_data()
+    hex_mesh.active_scalars_name = None
+    grid.points = scale /np.max(grid.points)
+    return convert_voxel_to_hex_numpy(hex_mesh)
 
-    def _fit(L, h):
-        # number of *cells*, not nodes
-        q = L / h
-        if abs(q - round(q)) < 1e-12:
-            Nc = int(round(q))  # exact number of cells
-            Le = Nc * h
-        else:
-            Nc = int(np.floor(q))
-            Le = Nc * h
-        return Nc, Le
+def convert_voxel_to_hex_numpy(mesh: pv.UnstructuredGrid) -> pv.UnstructuredGrid:
+    cells = np.asarray(mesh.cells)
+    cells_2d = cells.reshape(-1, 9)
+    conn = cells_2d[:, 1:9]
+    hex_conn = conn[:, [0, 1, 3, 2, 4, 5, 7, 6]]
 
-    Nx_cells, Lx_eff = _fit(Lx, hx)
-    Ny_cells, Ly_eff = _fit(Ly, hy)
-    Nz_cells, Lz_eff = _fit(Lz, hz)
+    new_cells = np.hstack(
+        [np.full((hex_conn.shape[0], 1), 8, dtype=cells.dtype), hex_conn]).ravel()
 
-    # grid needs nodes = cells + 1
-    grid = pv.ImageData()
-    grid.origin = (0.0, 0.0, 0.0)
-    grid.spacing = (hx, hy, hz)
-    grid.dimensions = (Nx_cells + 1, Ny_cells + 1, Nz_cells + 1)
+    new_celltypes = np.full(mesh.n_cells, pv.CellType.HEXAHEDRON, dtype=mesh.celltypes.dtype)
+    new_mesh = pv.UnstructuredGrid(new_cells, new_celltypes, mesh.points.copy())
 
-    # sample at cell centers
-    xcs = (np.arange(Nx_cells, dtype=float) + 0.5) * hx
-    ycs = (np.arange(Ny_cells, dtype=float) + 0.5) * hy
-    zcs = (np.arange(Nz_cells, dtype=float) + 0.5) * hz
-    Xc, Yc, Zc = np.meshgrid(xcs, ycs, zcs, indexing='ij')
+    for key in mesh.point_data:
+        new_mesh.point_data[key] = mesh.point_data[key].copy()
 
-    expr = sp.sympify(formula_str)
-    f_func = calculate_lambdified_formula(expr)
-
-    k = 2.0 * np.pi / unit_cell_size
-    field_values = _evaluate_periodic_field(f_func, Xc, Yc, Zc, k=k, network_phase=network_phase)
-
-    if network_phase:
-        mask = field_values > (thickness / 2.0)
-    else:
-        mask = np.abs(field_values) <= (thickness / 2.0)
-
-    grid.cell_data['active'] = mask.ravel(order='F').astype(float)
-    ug = grid.threshold(0.5, scalars='active')
-    ug.clear_data()
-    ug.active_scalars_name = None
-    return ug
-
+    for key in mesh.cell_data:
+        new_mesh.cell_data[key] = mesh.cell_data[key].copy()
+    return new_mesh
 
 def calculate_thickness(
         formula_str: str,

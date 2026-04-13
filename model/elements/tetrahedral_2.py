@@ -4,10 +4,34 @@ from model.elements.finite_element import FiniteElement
 
 
 class SecondOrderTetrahedralElement(FiniteElement):
-    def __init__(self, nodes: np.ndarray, material: BaseMaterial):
+    default_formulation = "standard"
+
+    def __init__(
+            self,
+            nodes: np.ndarray,
+            material: BaseMaterial,
+            formulation: str | None = None,
+    ):
         if np.array(nodes, dtype=float).shape != (10, 3):
             raise ValueError("For a second-order tetrahedron, nodes must be a (10,3) array.")
         super().__init__(nodes, material)
+
+        self.formulation = formulation if formulation is not None else self.default_formulation
+        if self.formulation != "standard":
+            raise ValueError(
+                "SecondOrderTetrahedralElement supports only formulation='standard'."
+            )
+
+    def _gauss_points(self):
+        a = 0.5854101966249685
+        b = 0.1381966011250105
+        w = 1.0 / 24.0
+        return [
+            (b, b, b, w),
+            (a, b, b, w),
+            (b, a, b, w),
+            (b, b, a, w),
+        ]
 
     def __shape_function(self, r, s, t):
         L1 = 1 - r - s - t
@@ -72,39 +96,46 @@ class SecondOrderTetrahedralElement(FiniteElement):
 
     # ----- linear stiffness -----
     def stiffness_matrix(self):
-        r = s = t = 1 / 4
-        _, dN = self.__shape_function(r, s, t)
-        J = self.__jacobian(dN)
-        detJ = np.linalg.det(J)
-        if detJ <= 0:
-            raise ValueError("Jacobian determinant is non-positive.")
-        invJ = np.linalg.inv(J)
-        dN_global = dN @ invJ.T
-        B = self.__assemble_B_matrix(dN_global)
-        D = self.material.constitutive_matrix
-        return detJ * (B.T @ D @ B)
+        constitutive_matrix = self.material.constitutive_matrix
+        element_stiffness = np.zeros((30, 30), dtype=float)
 
-    # ----- nonlinear integration support -----
+        for r, s, t, weight in self._gauss_points():
+            _, dN_dxi = self.__shape_function(r, s, t)
+            jacobian_matrix = self.__jacobian(dN_dxi)
+            jacobian_determinant = np.linalg.det(jacobian_matrix)
+            if jacobian_determinant <= 0:
+                raise ValueError("Jacobian determinant is non-positive.")
+            inverse_jacobian = np.linalg.inv(jacobian_matrix)
+            dN_global = dN_dxi @ inverse_jacobian.T
+            b_matrix = self.__assemble_B_matrix(dN_global)
+            element_stiffness += jacobian_determinant * weight * (b_matrix.T @ constitutive_matrix @ b_matrix)
+
+        return 0.5 * (element_stiffness + element_stiffness.T)
+
     def B_matrices(self):
-        r = s = t = 1 / 4
-        _, dN = self.__shape_function(r, s, t)
-        J = self.__jacobian(dN)
-        detJ = np.linalg.det(J)
-        if detJ <= 0:
-            raise ValueError("Jacobian determinant is non-positive.")
-        invJ = np.linalg.inv(J)
-        dN_global = dN @ invJ.T
-        B = self.__assemble_B_matrix(dN_global)
-        return [B]
+        b_matrices = []
+        for r, s, t, weight in self._gauss_points():
+            _, dN_dxi = self.__shape_function(r, s, t)
+            jacobian_matrix = self.__jacobian(dN_dxi)
+            jacobian_determinant = np.linalg.det(jacobian_matrix)
+            if jacobian_determinant <= 0:
+                raise ValueError("Jacobian determinant is non-positive.")
+            inverse_jacobian = np.linalg.inv(jacobian_matrix)
+            dN_global = dN_dxi @ inverse_jacobian.T
+            b_matrix = self.__assemble_B_matrix(dN_global)
+            b_matrices.append(b_matrix)
+        return b_matrices
 
     def integration_weights(self) -> np.ndarray:
-        r = s = t = 1 / 4
-        _, dN = self.__shape_function(r, s, t)
-        J = self.__jacobian(dN)
-        detJ = np.linalg.det(J)
-        if detJ <= 0:
-            raise ValueError("Jacobian determinant is non-positive.")
-        return np.array([detJ], dtype=float)
+        weights = []
+        for r, s, t, weight in self._gauss_points():
+            _, dN_dxi = self.__shape_function(r, s, t)
+            jacobian_matrix = self.__jacobian(dN_dxi)
+            jacobian_determinant = np.linalg.det(jacobian_matrix)
+            if jacobian_determinant <= 0:
+                raise ValueError("Jacobian determinant is non-positive.")
+            weights.append(jacobian_determinant * weight)
+        return np.array(weights, dtype=float)
 
     # ----- strain / stress / energy -----
     def compute_strain(self, displacements, **kwargs):

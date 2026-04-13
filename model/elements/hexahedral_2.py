@@ -4,10 +4,23 @@ from model.elements.finite_element import FiniteElement
 
 
 class SecondOrderHexahedralElement(FiniteElement):
-    def __init__(self, nodes: np.ndarray, material: BaseMaterial):
+    default_formulation = "standard"
+
+    def __init__(
+        self,
+        nodes: np.ndarray,
+        material: BaseMaterial,
+        formulation: str | None = None,
+    ):
         if np.array(nodes, dtype=float).shape != (20, 3):
             raise ValueError("For a second-order hexahedral element, nodes must be a (20,3) array.")
         super().__init__(nodes, material)
+
+        self.formulation = formulation if formulation is not None else self.default_formulation
+        if self.formulation != "standard":
+            raise ValueError(
+                "SecondOrderHexahedralElement supports only formulation='standard'."
+            )
 
     # ------------------------------------------------------------
     # Shape functions etc. (same as before)

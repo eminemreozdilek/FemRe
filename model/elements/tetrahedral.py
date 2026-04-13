@@ -4,10 +4,23 @@ from model.elements.finite_element import FiniteElement
 
 
 class TetrahedralElement(FiniteElement):
-    def __init__(self, nodes: np.ndarray, material: BaseMaterial):
+    default_formulation = "standard"
+
+    def __init__(
+        self,
+        nodes: np.ndarray,
+        material: BaseMaterial,
+        formulation: str | None = None,
+    ):
         if np.array(nodes, dtype=float).shape != (4, 3):
             raise ValueError("nodes must be a (4,3) array")
         super().__init__(nodes, material)
+
+        self.formulation = formulation if formulation is not None else self.default_formulation
+        if self.formulation != "standard":
+            raise ValueError(
+                "TetrahedralElement supports only formulation='standard'."
+            )
 
     def __compute_volume(self):
         M = np.ones((4, 4))

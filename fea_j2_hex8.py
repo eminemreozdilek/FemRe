@@ -1,14 +1,3 @@
-# fea_j2_hex8.py
-# =========================================================================
-# 3D Bilinear Elastoplastic FEA with 8-Node Hexahedral Elements (Hex8)
-# Newton-Raphson (displacement control) - Uniaxial test
-# J2 Plasticity + Isotropic Hardening (Mandel-based return mapping)
-# + Adaptive cutback + basic damping
-#
-# NumPy + SciPy sparse + pypardiso
-# Visualization: matplotlib + pyvista
-# =========================================================================
-
 import numpy as np
 import scipy.sparse as sp
 from dataclasses import dataclass
@@ -17,38 +6,12 @@ import matplotlib.pyplot as plt
 import pyvista as pv
 
 
-# =========================
-# Utilities / Voigt helpers
-# =========================
 def voigt_dev_projector():
     """Deviatoric projector in 6x6 (Mandel basis will reuse same structure)."""
     P = np.eye(6)
     P[:3, :3] -= (1.0 / 3.0) * np.ones((3, 3))
     return P
 
-
-def voigt_to_tensor(sig_v):
-    """
-    Voigt stress [sxx syy szz txy tyz tzx] -> 3x3
-    """
-    sxx, syy, szz, txy, tyz, tzx = sig_v
-    return np.array([[sxx, txy, tzx],
-                     [txy, syy, tyz],
-                     [tzx, tyz, szz]], dtype=float)
-
-
-def von_mises_from_voigt(sig_v):
-    """Von Mises from Voigt stress [sxx syy szz txy tyz tzx]."""
-    S = voigt_to_tensor(sig_v)
-    tr = np.trace(S) / 3.0
-    dev = S - tr * np.eye(3)
-    j2 = 0.5 * np.sum(dev * dev)
-    return np.sqrt(3.0 * j2)
-
-
-# =========================
-# Material & return mapping
-# =========================
 @dataclass
 class Material:
     E: float
