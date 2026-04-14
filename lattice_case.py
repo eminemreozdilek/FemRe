@@ -13,8 +13,9 @@ if __name__ == "__main__":
         formula_str = file_io.lif_io.calculate_implicit_formula_string_from_lif(lattice_path)
         # formula_str = "cos(x) * sin(y) + cos(y) * sin(z) + cos(z) * sin(x)"
         thickness, voxel_array = mle.calculate_thickness(formula_str, vf, 50, network_phase=False)
-        grid = mle.generate_voxel_mesh(voxel_array, repeats=(9, 3, 3), scale=15.0)
+        grid = mle.generate_voxel_mesh(voxel_array, repeats=(9, 3, 3), scale=5.0)
         grid.save(f"macro_{lattice_type}_{round(vf * 100)}_vf.vtu")
+        # grid.plot(show_bounds=True, show_edges=True)
 
         E = 200000
         nu = 0.3

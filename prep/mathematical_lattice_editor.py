@@ -210,7 +210,7 @@ def generate_voxel_mesh(voxel_array: np.ndarray, repeats=(9, 3, 3), scale=1.0):
     hex_mesh = grid.threshold([0.9, 1.1])
 
     hex_mesh.clear_data()
-    hex_mesh.points = (hex_mesh.points / np.max(grid.points)) * scale * np.max(repeats)
+    hex_mesh.points = np.round((hex_mesh.points / np.max(grid.points)) * scale * np.max(repeats),12)
 
     return convert_voxel_to_hex_numpy(hex_mesh)
 
