@@ -1,5 +1,6 @@
 import numpy as np
 import pyvista as pv
+import h5py
 
 import file_io
 from model.material import *
@@ -60,32 +61,38 @@ def copy_and_translate_mesh(mesh: pv.UnstructuredGrid, translation_vector: np.nd
 if __name__ == "__main__":
     total_force = 1000
 
-    beam_1 = create_i_beam()
-    # beam_2 = copy_and_translate_mesh(beam_1, np.array([45.0, 0.0, 0.0]))
+    for vf in [10,30,50]:
+        beam_1 = create_i_beam()
+        # beam_2 = copy_and_translate_mesh(beam_1, np.array([45.0, 0.0, 0.0]))
 
-    steel = BaseMaterial(
-        material_id=1,
-        youngs_modulus=200000,
-        poissons_ratio=0.3,)
+        file_path = f'Grid_{vf}_vf.h5'
+        with h5py.File(file_path, 'r') as f:
+            constitutive_matrix = f['/homogenization/constitutive_matrix'][:]
 
-    model = Model()
-    component_1 = model.add_component(beam_1, steel, name="beam_1")
-    # component_2 = model.add_component(beam_2, steel, name="beam_2")
-    # contact_data = model.auto_create_rigid_contacts_between_components(
-    #     parent_component_id=component_1.component_id,
-    #     child_component_id=component_2.component_id,
-    #     tolerance=1e-3, )
+        steel = BaseMaterial(
+            material_id=1,
+            youngs_modulus=200000,
+            poissons_ratio=0.3, )
+        steel.constitutive_matrix = np.round(constitutive_matrix, decimals=6)
 
-    fixed_nodes = model.select_nodes_by_coordinates(x=(0.0, 0.0))
-    model.set_nodal_displacement(fixed_nodes, ux=0.0, uy=0.0, uz=0.0)
-    fixed_nodes = model.select_nodes_by_coordinates(x=(45.0, 45.0))
-    model.set_nodal_displacement(fixed_nodes, ux=0.0)
+        model = Model()
+        component_1 = model.add_component(beam_1, steel, name="beam_1")
+        # component_2 = model.add_component(beam_2, steel, name="beam_2")
+        # contact_data = model.auto_create_rigid_contacts_between_components(
+        #     parent_component_id=component_1.component_id,
+        #     child_component_id=component_2.component_id,
+        #     tolerance=1e-3, )
 
-    loaded_nodes = model.select_nodes_by_coordinates(y=(15.0,15.0))
-    force = - total_force / loaded_nodes.size
-    model.add_nodal_force(loaded_nodes, fy=force)
+        fixed_nodes = model.select_nodes_by_coordinates(x=(0.0, 0.0))
+        model.set_nodal_displacement(fixed_nodes, ux=0.0, uy=0.0, uz=0.0)
+        fixed_nodes = model.select_nodes_by_coordinates(x=(45.0, 45.0))
+        model.set_nodal_displacement(fixed_nodes, ux=0.0)
 
-    results = model.solve_linear()
-    post_proc = post.PostProcessor(model, deformation_factor=1.0)
-    mesh = post_proc.mesh
-    mesh.save("macro_result.vtu")
+        loaded_nodes = model.select_nodes_by_coordinates(y=(15.0,15.0))
+        force = - total_force / loaded_nodes.size
+        model.add_nodal_force(loaded_nodes, fy=force)
+
+        results = model.solve_linear()
+        post_proc = post.PostProcessor(model, deformation_factor=1.0)
+        mesh = post_proc.mesh
+        mesh.save(f"macro_result_{vf}.vtu")

@@ -176,3 +176,9 @@ cython_debug/
 *.h5
 *.csv
 *.txt
+*.vtu
+*.vtk
+*.png
+*.jpg
+*.cdb
+*.db
