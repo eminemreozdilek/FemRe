@@ -1,10 +1,8 @@
 import numpy as np
 import pyvista as pv
 
-import file_io
 from model.material import *
 from model import Model
-from solver.linear_solver import solve_model
 import post
 
 

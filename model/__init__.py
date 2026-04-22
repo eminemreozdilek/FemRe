@@ -10,6 +10,7 @@ from scipy.spatial import cKDTree
 from model.material import BaseMaterial
 from model.elements import *
 from model.data_class import *
+from solver.result_editor import model_element_fields
 from solver.linear_solver import solve_model
 from solver.linear_solver import *
 
@@ -20,6 +21,9 @@ class Model:
         self.nodes_by_id: Dict[int, NodeData] = {}
         self.elements_by_id: Dict[int, ElementData] = {}
         self.contact_constraint_sets: List[ContactData] = []
+        self.constraint_equation_dict: Dict[int, list] = {}
+        self.constraint_equation_data_list: List[ConstraintEquationData] = []
+        self.lambda_constraint_equations: Dict[int, float] = {}
         self.next_node_id: int = 1
         self.next_element_id: int = 1
         self.u = None
@@ -264,6 +268,133 @@ class Model:
         self.contact_constraint_sets.append(constraint_set)
         return constraint_set
 
+    def set_constraint_equation(
+            self,
+            constraint_dict: Dict[int, list],
+    ) -> None:
+        if constraint_dict is None:
+            constraint_dict = {}
+        if not isinstance(constraint_dict, dict):
+            raise TypeError("constraint_dict must be a dictionary of equation definitions")
+
+        normalized_constraint_dict: Dict[int, list] = {}
+        parsed_constraint_list: List[ConstraintEquationData] = []
+        merge_tolerance = 1.0e-14
+
+        for raw_constraint_eq_id in sorted(constraint_dict.keys()):
+            if not isinstance(raw_constraint_eq_id, (int, np.integer)):
+                raise TypeError("constraint equation id must be an integer")
+            constraint_eq_id = int(raw_constraint_eq_id)
+            if constraint_eq_id <= 0:
+                raise ValueError("constraint equation id must be a positive integer")
+
+            equation_definition = constraint_dict[raw_constraint_eq_id]
+            if not isinstance(equation_definition, (list, tuple)):
+                raise TypeError(f"constraint equation {constraint_eq_id} must be a list or tuple")
+            if len(equation_definition) < 2:
+                raise ValueError(
+                    f"constraint equation {constraint_eq_id} must contain at least one term and one constant"
+                )
+
+            raw_terms = equation_definition[:-1]
+            raw_constant = equation_definition[-1]
+            try:
+                equation_constant = float(raw_constant)
+            except (TypeError, ValueError):
+                raise TypeError(
+                    f"constraint equation {constraint_eq_id} constant must be numeric"
+                ) from None
+            if not np.isfinite(equation_constant):
+                raise ValueError(
+                    f"constraint equation {constraint_eq_id} constant must be finite"
+                )
+
+            coefficient_by_dof: Dict[int, float] = {}
+            for term_index, raw_term in enumerate(raw_terms):
+                if not isinstance(raw_term, (list, tuple, np.ndarray)):
+                    raise TypeError(
+                        f"constraint equation {constraint_eq_id} term {term_index} must be [node_id, dof, coeff]"
+                    )
+                if len(raw_term) != 3:
+                    raise ValueError(
+                        f"constraint equation {constraint_eq_id} term {term_index} must have exactly 3 entries"
+                    )
+
+                raw_node_id, raw_dof, raw_coeff = raw_term
+
+                if not isinstance(raw_node_id, (int, np.integer)):
+                    raise TypeError(
+                        f"constraint equation {constraint_eq_id} term {term_index} node_id must be an integer"
+                    )
+                node_id = int(raw_node_id)
+                if node_id not in self.nodes_by_id:
+                    raise ValueError(
+                        f"constraint equation {constraint_eq_id} term {term_index} references unknown node_id {node_id}"
+                    )
+
+                if not isinstance(raw_dof, (int, np.integer)):
+                    raise TypeError(
+                        f"constraint equation {constraint_eq_id} term {term_index} dof must be an integer"
+                    )
+                dof = int(raw_dof)
+                if dof < 0 or dof > 2:
+                    raise ValueError(
+                        f"constraint equation {constraint_eq_id} term {term_index} has invalid dof {dof}; expected 0, 1, or 2"
+                    )
+
+                try:
+                    coeff = float(raw_coeff)
+                except (TypeError, ValueError):
+                    raise TypeError(
+                        f"constraint equation {constraint_eq_id} term {term_index} coefficient must be numeric"
+                    ) from None
+                if not np.isfinite(coeff):
+                    raise ValueError(
+                        f"constraint equation {constraint_eq_id} term {term_index} coefficient must be finite"
+                    )
+                if abs(coeff) <= merge_tolerance:
+                    continue
+
+                dof_index = self.__node_dof_index(node_id, dof)
+                coefficient_by_dof[dof_index] = coefficient_by_dof.get(dof_index, 0.0) + coeff
+
+            merged_terms = sorted(
+                [
+                    (dof_index, coeff_value)
+                    for dof_index, coeff_value in coefficient_by_dof.items()
+                    if abs(coeff_value) > merge_tolerance
+                ],
+                key=lambda item: item[0],
+            )
+            if not merged_terms:
+                raise ValueError(
+                    f"constraint equation {constraint_eq_id} has no non-zero terms after merging duplicate DOFs"
+                )
+
+            dof_indices = np.array([item[0] for item in merged_terms], dtype=np.int64)
+            coefficients = np.array([item[1] for item in merged_terms], dtype=float)
+
+            normalized_terms: List[object] = []
+            for dof_index, coeff_value in merged_terms:
+                normalized_node_id = int(dof_index // 3 + 1)
+                normalized_dof = int(dof_index % 3)
+                normalized_terms.append([normalized_node_id, normalized_dof, float(coeff_value)])
+            normalized_terms.append(float(equation_constant))
+
+            normalized_constraint_dict[constraint_eq_id] = normalized_terms
+            parsed_constraint_list.append(
+                ConstraintEquationData(
+                    constraint_eq_id=constraint_eq_id,
+                    dof_indices=dof_indices,
+                    coefficients=coefficients,
+                    equation_constant=float(equation_constant),
+                )
+            )
+
+        self.constraint_equation_dict = normalized_constraint_dict
+        self.constraint_equation_data_list = parsed_constraint_list
+        self.lambda_constraint_equations = {}
+
     def auto_create_rigid_contacts_between_components(
             self,
             parent_component_id: int,
@@ -307,6 +438,12 @@ class Model:
             y: Optional[Tuple[float, float]] = None,
             z: Optional[Tuple[float, float]] = None,
     ) -> np.ndarray:
+        if x is float or x is int:
+            x = (x, x)
+        if y is float or y is int:
+            y = (y, y)
+        if z is float or z is int:
+            z = (z, z)
         node_ids = np.array(sorted(self.nodes_by_id.keys()), dtype=int)
         coords = np.array(
             [self.nodes_by_id[int(node_id)].coordinates for node_id in node_ids],

@@ -3,7 +3,7 @@ import sympy as sp
 import pyvista as pv
 from scipy.interpolate import RegularGridInterpolator
 from stl import mesh as npstl_mesh
-from scipy.interpolate import RBFInterpolator, interp1d
+from scipy.interpolate import interp1d
 
 SYMBOLIC_X, SYMBOLIC_Y, SYMBOLIC_Z = sp.symbols('x y z')
 
@@ -200,14 +200,18 @@ def extract_volumetric_lattice_mesh(
     return mesh
 
 
-def generate_voxel_mesh(voxel_array: np.ndarray, repeats=(1,1,1), scale=1.0):
-    nx, ny, nz = voxel_array.shape
+def generate_voxel_mesh(voxel_array: np.ndarray, repeats=(9, 3, 3), scale=1.0):
+    tiled_voxels = np.tile(voxel_array, repeats)
+
+    nx, ny, nz = tiled_voxels.shape
     grid = pv.ImageData(dimensions=(nx + 1, ny + 1, nz + 1))
-    grid.cell_data["active_voxels"] = voxel_array.flatten(order="F")
+
+    grid.cell_data["active_voxels"] = tiled_voxels.flatten(order="F")
     hex_mesh = grid.threshold([0.9, 1.1])
+
     hex_mesh.clear_data()
-    hex_mesh.active_scalars_name = None
-    grid.points = scale /np.max(grid.points)
+    hex_mesh.points = np.round((hex_mesh.points / np.max(grid.points)) * scale * np.max(repeats),12)
+
     return convert_voxel_to_hex_numpy(hex_mesh)
 
 def convert_voxel_to_hex_numpy(mesh: pv.UnstructuredGrid) -> pv.UnstructuredGrid:
